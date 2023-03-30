@@ -4,7 +4,8 @@ import java.util.HashMap;
 class Room {
     String n,d;
     private String N,E,S,W;
-    static ArrayList<String> items = new ArrayList<>();
+    static ArrayList<Item> items = new ArrayList<>();
+
     private boolean visited = false;
 
     Room(String n, String d) {
@@ -34,6 +35,9 @@ class Room {
                             + "there is a plaque on furthest wall, though "
                             + "you cant quite see what it says, three doors, one north, one east and one west");
             r1.setExits("hangman","","","");
+            Item pl = new Item("plaque", "Welcome. you are tasked to solve a series of riddles each giving you a peice of a code to escape"
+                                            + " Once you have the code, you will open the door behind you with it to leave.");
+            items.add(pl);
             rooms.put(r1.n, r1);
         Room r2 = new Room("hangman", "There is a paper on the wall, it looks like hangman. "
                                         + "You see there is a pencil, an eraser, and a counter for lives");
