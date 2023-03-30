@@ -30,6 +30,17 @@ class Room {
         }
     }
 
+    Item getItem(String name) {
+        for(Item i : items) {
+            if(i.n.equals(name)) {
+                return i;
+            }
+        }
+        return null;
+
+        
+    }
+
     static void getRooms(HashMap<String, Room> rooms) {
         Room r1 = new Room("foyer", "you are in a room, door behind you, "
                             + "there is a plaque on furthest wall, though "

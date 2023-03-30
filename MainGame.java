@@ -14,8 +14,23 @@ public class MainGame {
             Room r = rooms.get(currentRoom);
             System.out.print(r.d);
             System.out.print("Which direction would you like to go? ");
-            String resp = sc.nextLine();
-            currentRoom = r.getExits(resp.charAt(0));
+            String[] resp = sc.nextLine().split("[ ]+");
+            for(String i : resp) {
+                if(i.equals("read")) {
+                    Item it = r.getItem("plaque"); //FIXME -- how to find which item to look for
+                    System.out.print(it.d);
+                }
+                else {
+                    switch(i) {
+                        case "n":
+                        case "e":
+                        case "s":
+                        case "w":
+                            currentRoom = r.getExits(i.charAt(0));
+                    }
+                }
+            }
+            //currentRoom = r.getExits();
         } 
 
     }
