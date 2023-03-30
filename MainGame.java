@@ -19,7 +19,6 @@ public class MainGame {
                 if(i.equals("read")) {
                     Item it = r.getItem("plaque"); //FIXME -- how to find which item to look for
                     System.out.print(it.d);
-                    System.out.print("alkjsda");
                 }
                 else {
                     switch(i) {
