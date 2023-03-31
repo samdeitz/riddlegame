@@ -14,7 +14,7 @@ public class MainGame {
         } 
 
     static void setup() {
-        currentRoom = "foyer";
+        currentRoom = "Entrance";
         Room.getRooms(rooms);
     }
 }
