@@ -16,10 +16,12 @@ public class MainGame {
             name = sc.nextLine();
             System.out.printf("Welcome %s.%n", p.name);
             while(!gameOver) {
-                System.out.printf("%s%n%n", rooms.get(currentRoom).d);
+                Room r = rooms.get(currentRoom);
+                System.out.printf("%s%n%n", r.d);
                 System.out.print("What will you do? ");
                 String sen = sc.nextLine();
-                String word1 = sen[0];
+                sen = translateSen(sen);
+                String word1 = sen.split(" ")[0];
                 
                 switch(word1) {
                     case "n": case "s": case "w": case "e": case "u": case "d":
@@ -29,13 +31,39 @@ public class MainGame {
                     case "i": case "inventory":
                         showInventory();
                         break;
-                    }
+                    
+                    case "pickup":
+                        for(Item i : r.items) {
+                            if(i.n.equals(sen.split(" ")[1])) {
+                                p.addItem(r.getItem(sen.split(" ")[1]));
+                                System.out.printf("Picked up item %s.", i.n);
+                            }
 
+                        }
+                    case "read":
+                        for(Item i : r.items) {
+                            if(i.n.equals(sen.split(" ")[1])) System.out.println(i.d);
+                        }
+                    case "search":
+                        for(Item i : r.items) {
+                            if(i.hidden) {
+                                p.addItem(i);
+                                System.out.printf("Found item %s!%n", i.n);
+                            }
+                        }
+                }
                 //String[] command = sc.nextLine().split(" ");
-
                 //currentRoom = r.getExits();
             }
         } 
+
+    static String translateSen(String s) {
+        s = s.toUpperCase();
+        s = s.replaceAll("PICK UP", "PICKUP");
+        s = s.replaceAll("OPEN", "UNLOCK");
+        s = s.replaceAll("LOOK", "SEARCH");
+        return s.toLowerCase();
+    }
 
     static void moveToRoom(char d) {
         String newRoom = rooms.get(currentRoom).getExits(d);
