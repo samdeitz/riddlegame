@@ -36,14 +36,15 @@ public class MainGame {
                         for(Item i : r.items) {
                             if(i.n.equals(sen.split(" ")[1])) {
                                 p.addItem(r.getItem(sen.split(" ")[1]));
-                                System.out.printf("Picked up item %s.", i.n);
+                                System.out.printf("Picked up item %s.%n", i.n);
                             }
-
                         }
+                        break;
                     case "read":
                         for(Item i : r.items) {
                             if(i.n.equals(sen.split(" ")[1])) System.out.println(i.d);
                         }
+                        break;
                     case "search":
                         for(Item i : r.items) {
                             if(i.hidden) {
@@ -51,6 +52,7 @@ public class MainGame {
                                 System.out.printf("Found item %s!%n", i.n);
                             }
                         }
+                        break;
                 }
                 //String[] command = sc.nextLine().split(" ");
                 //currentRoom = r.getExits();
@@ -92,6 +94,7 @@ public class MainGame {
         for(Item i : p.inventory) {
             System.out.printf("%s: %s  ", i.n, i.d);
         }
+        System.out.println();
     }
 
     static void setup() {
