@@ -18,7 +18,8 @@ public class MainGame {
             while(!gameOver) {
                 System.out.printf("%s%n%n", rooms.get(currentRoom).d);
                 System.out.print("What will you do? ");
-                String word1 = sc.nextLine().split(" ")[0];
+                String sen = sc.nextLine();
+                String word1 = sen[0];
                 
                 switch(word1) {
                     case "n": case "s": case "w": case "e": case "u": case "d":

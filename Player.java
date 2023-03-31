@@ -22,6 +22,11 @@ public class Player {
         System.out.printf("You now have %d hunger.", this.food);
     }
 
+    void addFood(){
+        this.food++;
+        System.out.printf("You now have %d hunger.", this.food);
+    }
+
     void addItem(Item i) {
         inventory.add(i);
         
