@@ -48,6 +48,10 @@ public class MainGame {
             }
         }
 
+        if(newRoom.equals("lockedRoom")){
+            
+        }
+
         if(newRoom.equals("")) {
             System.out.println("You hit a wall and pass out.");
             return;
