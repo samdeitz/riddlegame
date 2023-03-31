@@ -49,7 +49,7 @@ class Room {
                                                 + "\nYou see the door has 4 keyholes and a plaque with writing beside it.");
         rooms.put(entrance.n, entrance);
         entrance.setExits("hall2", "keyroom3","exit","hall1");
-        Item plaque = new Item("plaque", "Welcome, ");
+        Item plaque = new Item("plaque", "Welcome, ", false);
         entrance.items.add(plaque);
 
 
@@ -67,7 +67,7 @@ class Room {
                                             + "\nYou find yourself in a room, with a number on the wall, and an engraving you cant quite see.");
         rooms.put(puzzle1.n, puzzle1);
         Item engraving = new Item("engraving", "Welcome, to open the door you must answer a riddle, but careful! Three wrong answers and you die."
-                                                + "The riddle is: ");
+                                                + "The riddle is: ", false);
         puzzle1.items.add(engraving);
         puzzle1.setExits("hall1", "", "", "");
 
@@ -76,9 +76,9 @@ class Room {
                                 + "there is a mat in the middle and a marker in the corner and the exit door to your east.");
         rooms.put(keyroom1.n, keyroom1);
         keyroom1.setExits("", "hall1", "", "");
-        Item mat = new Item("mat", "plain red shag carpet.");
-        Item key1 = new Item("key1", "Shiny red key, perhaps useful for opening doors.");
-        Item marker = new Item("marker", "A whiteboard marker, coloured black");
+        Item mat = new Item("mat", "plain red shag carpet.", false);
+        Item key1 = new Item("key1", "Shiny red key, perhaps useful for opening doors.", true);
+        Item marker = new Item("marker", "A whiteboard marker, coloured black", false);
         keyroom1.items.add(marker);
         keyroom1.items.add(mat);
         keyroom1.items.add(key1);
@@ -88,7 +88,7 @@ class Room {
                                                 + "\nand a button with the shape of a key beside the board. Write start to begin.");
         rooms.put(keyroom3.n, keyroom3);
         keyroom3.setExits("", "", "", "entrance");
-        Item key2 = new Item("key2", "A shiny green key.");
+        Item key2 = new Item("key2", "A shiny green key.", false);
         keyroom3.items.add(key2);
 
 
@@ -113,7 +113,7 @@ class Room {
         Room leverRoom = new Room("Storage room", "Seems like this is a storage room. There is some food in the fridge you can eat. You also see a lever piece on top of some boxes. Maybe you should pick it up. Might be useful...");
         rooms.put(leverRoom.n, leverRoom);
         leverRoom.setExits("","","","lockedRoom");
-        Item lever = new Item("lever", "cool lever");
+        Item lever = new Item("lever", "cool lever", true);
         leverRoom.items.add(lever);
 
         Room twoDoorsRoom = new Room("twoDoorsRoom", "The room is empty except the two ominous doors. You don't know where they lead. Choose one...");
@@ -138,7 +138,7 @@ class Room {
         
         Room torchRoom = new Room("Safe room", "Finally, a different room. There is a torch on the wall, maybe it will be useful.");
         rooms.put(torchRoom.n, torchRoom);
-        Item torch = new Item("torch", "A lit torch, brightens up the room.");
+        Item torch = new Item("torch", "A lit torch, brightens up the room.", false);
         torchRoom.items.add(torch);
     }   
 }

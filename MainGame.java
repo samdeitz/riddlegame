@@ -34,14 +34,23 @@ public class MainGame {
                     
                     case "pickup":
                         for(Item i : r.items) {
-                            if(i.n.equals(sen.split(" ")[1])) p.addItem(r.getItem(sen.split(" ")[1]));
+                            if(i.n.equals(sen.split(" ")[1])) {
+                                p.addItem(r.getItem(sen.split(" ")[1]));
+                                System.out.printf("Picked up item %s.", i.n);
+                            }
+
                         }
                     case "read":
                         for(Item i : r.items) {
                             if(i.n.equals(sen.split(" ")[1])) System.out.println(i.d);
                         }
                     case "search":
-                     
+                        for(Item i : r.items) {
+                            if(i.hidden) {
+                                p.addItem(i);
+                                System.out.printf("Found item %s!%n", i.n);
+                            }
+                        }
                 }
                 //String[] command = sc.nextLine().split(" ");
                 //currentRoom = r.getExits();
