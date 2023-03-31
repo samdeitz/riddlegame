@@ -5,6 +5,7 @@ public class Player {
     int food = 5;
     final String name;
     ArrayList<Item> inventory = new ArrayList<>();
+    ArrayList<Item> keys = new ArrayList<>();
 
 
     Player(String name) {

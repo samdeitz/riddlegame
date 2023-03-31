@@ -37,8 +37,10 @@ class Room {
             }
         }
         return null;
+    }
 
-        
+    void setVisited() {
+        this.visited = true;
     }
 
     static void getRooms(HashMap<String, Room> rooms) {
@@ -114,7 +116,7 @@ class Room {
         Item lever = new Item("lever", "cool lever");
         leverRoom.items.add(lever);
 
-        Room twoDoorsRoom = new Room("Empty Room", "The room is empty except the two ominous doors. You don't know where they lead. Choose one...");
+        Room twoDoorsRoom = new Room("twoDoorsRoom", "The room is empty except the two ominous doors. You don't know where they lead. Choose one...");
         rooms.put(twoDoorsRoom.n, twoDoorsRoom);
         twoDoorsRoom.setExits("","","","");
 
