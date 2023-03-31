@@ -64,7 +64,7 @@ class Room {
 
 
         Room puzzle1 = new Room("puzzle", "SLAM! The door shuts behind you(north)."
-                                            + "\nYou find yourself in a room, with a number on the wall, and writing you cant quite see.");
+                                            + "\nYou find yourself in a room, with a number on the wall, and an engraving you cant quite see.");
         rooms.put(puzzle1.n, puzzle1);
         Item engraving = new Item("engraving", "Welcome, to open the door you must answer a riddle, but careful! Three wrong answers and you die."
                                                 + "The riddle is: ");
