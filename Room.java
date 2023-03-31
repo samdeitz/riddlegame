@@ -42,6 +42,55 @@ class Room {
     }
 
     static void getRooms(HashMap<String, Room> rooms) {
+
+        Room entrance = new Room("entrance", "You find yourself in a room, there is an entrance to your north and an exit to your south"
+                                                + "\nYou see the door has 4 keyholes and a plaque with writing beside it.");
+        rooms.put(entrance.n, entrance);
+        entrance.setExits("hall2", "keyroom3","exit","hall1");
+        Item plaque = new Item("plaque", "Welcome, ");
+        entrance.items.add(plaque);
+
+
+        Room hall1 = new Room("hall1", "You find yourself at a crossroads, three entrances, north, west, and south, "
+                                + "\nleaving the main room to your east. Where will you go?");
+        rooms.put(hall1.n, hall1);
+        hall1.setExits("death1", "entrance","puzzle", "keyroom1");
+
+
+        Room death1 = new Room("death1", "You walk in the room and step on a pressure plate, caving in the roof");
+        rooms.put(death1.n, death1);
+
+
+        Room puzzle1 = new Room("puzzle", "SLAM! The door shuts behind you(north)."
+                                            + "\nYou find yourself in a room, with a number on the wall, and writing you cant quite see.");
+        rooms.put(puzzle1.n, puzzle1);
+        Item engraving = new Item("engraving", "Welcome, to open the door you must answer a riddle, but careful! Three wrong answers and you die."
+                                                + "The riddle is: ");
+        puzzle1.items.add(engraving);
+        puzzle1.setExits("hall1", "", "", "");
+
+
+        Room keyroom1 = new Room("keyroom1", "You find yourself in a room, "
+                                + "there is a mat in the middle and a marker in the corner and the exit door to your east.");
+        rooms.put(keyroom1.n, keyroom1);
+        keyroom1.setExits("", "hall1", "", "");
+        Item mat = new Item("mat", "plain red shag carpet.");
+        Item key1 = new Item("key1", "Shiny red key, perhaps useful for opening doors.");
+        Item marker = new Item("marker", "A whiteboard marker, coloured black");
+        keyroom1.items.add(marker);
+        keyroom1.items.add(mat);
+        keyroom1.items.add(key1);
+
+
+        Room keyroom3 = new Room("hangman", "You are in a room, whiteboard on the wall opposite to the door, with a game of hangman written."
+                                                + "\nand a button with the shape of a key beside the board. Write start to begin.");
+        rooms.put(keyroom3.n, keyroom3);
+        keyroom3.setExits("", "", "", "entrance");
+        Item key2 = new Item("key2", "A shiny green key.");
+        keyroom3.items.add(key2);
+
+
+
         Room hall2 = new Room("hall2", "The hallway in front of you split into 3 paths. Which way will you go?");
         rooms.put(hall2.n, hall2);
         // make room, add to hashmap, set exits, add items
