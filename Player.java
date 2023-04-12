@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Player {
     int lives = 5;
     int food = 5;
-    final String name;
+    String name;
     ArrayList<Item> inventory = new ArrayList<>();
     ArrayList<Item> keys = new ArrayList<>();
 

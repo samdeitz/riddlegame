@@ -6,20 +6,21 @@ public class MainGame {
     static String currentRoom;
     static HashMap<String, Room> rooms = new HashMap<>();
     static boolean gameOver = false;
-    static String name;
-    static Player p = new Player(name);
+    static Player p = new Player("");
+    static boolean hasTorch = false, hasLever = false;
 
     public static void main(String[] args) {
             setup();
             Scanner sc = new Scanner(System.in);
             System.out.print("What is your name? ");
-            name = sc.nextLine();
+            p.name = sc.nextLine();
             System.out.printf("Welcome %s.%n", p.name);
 
 
             while(!gameOver) {
                 Room r = rooms.get(currentRoom);
-                System.out.printf("%s%n%n", r.d);
+                if(!r.locked) System.out.printf("%s%n%n", r.d);
+                else System.out.printf("Welcome to the %s.%n%n", r.n);
                 System.out.print("What will you do? ");
                 String sen = sc.nextLine();
                 sen = translateSen(sen);
@@ -38,7 +39,13 @@ public class MainGame {
                         for(Item i : r.items) {
                             if(i.n.equals(sen.split(" ")[1])) {
                                 p.addItem(r.getItem(sen.split(" ")[1]));
-                                System.out.printf("Picked up item %s.", i.n);
+                                System.out.printf("Picked up item %s.%n", i.n);
+                            }
+                            if(sen.split(" ")[1].equals("torch")) {
+                                hasTorch = true;
+                            }
+                            if(sen.split(" ")[1].equals("torch")) {
+                                hasLever = true;
                             }
                         }
                         break;
@@ -62,8 +69,21 @@ public class MainGame {
                     
                     case "use":
                         String word2 = sen.split(" ")[1];
-                        if(word2.equals("redkey") && rooms.get(currentRoom).n.equals("hall2")) {
-                            
+                        Room reqRoom = rooms.get(currentRoom);
+                        if(word2.equals("redkey") && reqRoom.n.equals("hall2")) {
+                            rooms.get("redroom").locked = false;
+                            System.out.println("You open the locked room, you find there are two directions, east and south.");
+                        }
+
+                        if(word2.equals("greenkey") && reqRoom.n.equals("hall2")) {
+                            rooms.get("greenroom").locked = false;
+                            System.out.println("You open the green room, you see nothing but darkness inside.");
+                        }
+
+                        if(word2.equals("blackkey") && reqRoom.n.equals("entrance")) {
+                            rooms.get("blackroom").locked = false;
+                            System.out.println("You open the black room, and find yourself in a game?");
+
                         }
 
                     
@@ -93,6 +113,11 @@ public class MainGame {
         String newRoom = rooms.get(currentRoom).getExits(d);
         System.out.println(newRoom);
 
+        if(rooms.get(newRoom).locked) {
+            System.out.println(rooms.get(newRoom).d);
+            return;
+        }
+
         // if they try to exit, check if they have all four keys
         if(newRoom.equals("exit")) {
             if(p.keys.size() != 4) {
@@ -101,6 +126,16 @@ public class MainGame {
             }
         }
 
+        if(newRoom.equals("puzzle")) {
+
+            //riddle code
+
+
+            // if solve all riddle back to old room
+            return;
+            //i luv him more(she doesnt)
+
+        }
         
 
         //if you try to enter a locked room
@@ -123,26 +158,12 @@ public class MainGame {
             }
         }
 
-        
+        // if they try to enter last room
         if(newRoom.equals("keyroom4")){
-            boolean dark = true;
-            boolean haslever = false;
-
-            for(Item item : p.inventory){
-                if(item.n.equals("torch")){
-                    dark = false;
-                }
-                
-                if(item.n.equals("lever")){
-                    haslever = true;
-                }
-            }
-            if(!dark && !haslever){
+            if(hasTorch){
                 System.out.println("You use the torch to light up the room. There is a broken mechanism on the wall. Maybe you can find an item to fix it.");
             }
-            if(!dark && haslever){
-                System.out.println("");
-            }
+            
         }
         
 
