@@ -52,7 +52,7 @@ public class Hangman {
                 }
             }
         }
-
-
+        System.out.println("YOU WIN!");
+        sc.close();
     }
 }

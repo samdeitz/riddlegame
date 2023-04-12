@@ -38,8 +38,8 @@ public class MainGame {
                                 p.addItem(r.getItem(sen.split(" ")[1]));
                                 System.out.printf("Picked up item %s.", i.n);
                             }
-
                         }
+                        break;
                     case "read":
 
                         for(Item i : r.items) {
@@ -56,10 +56,12 @@ public class MainGame {
                         break;
                     
                     // case "use":
-                    case "unlock":
-                        
+                    //     String word2 = sen.split(" ")[1];
+                    //     if(word2.equals("key")) {
+                    //         for(Item i : p.keys) {
 
-
+                    //         }
+                    //     }
 
                     case default:
                         System.out.println("I dont understand.");
@@ -74,7 +76,8 @@ public class MainGame {
         // make uppercase and replace
         s = s.toUpperCase();
         s = s.replaceAll("PICK UP", "PICKUP");
-        s = s.replaceAll("OPEN", "UNLOCK");
+        s = s.replaceAll("OPEN", "USE");
+        s = s.replaceAll("UNLOCK", "USE");
         s = s.replaceAll("LOOK", "SEARCH");
         return s.toLowerCase();
     }

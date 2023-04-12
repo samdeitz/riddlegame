@@ -106,11 +106,14 @@ class Room {
         rooms.put(lockedRoom.n, lockedRoom);
         lockedRoom.setExits("","leverRoom","keyroom2", "hall2");
 
-        Room keyroom2 = new Room("keyroom2", "The room is well lighted. In front of you is a huge stone wall. \"wordle\" is engraved in big writing. There are five holes lined up horizontally. The stones on the ground seem to be the perfect size for the holes. Each stone has a letter. Arrange the stones to find the word combination that solves the puzzle. Type in the five letter code...");
+        Room keyroom2 = new Room("keyroom2", "The room is well lighted. In front of you is a huge stone wall. \"wordle\" is engraved in big writing. There are five holes lined up horizontally. "
+                                            + "The stones on the ground seem to be the perfect size for the holes. Each stone has a letter."
+                                            + "Arrange the stones to find the word combination that solves the puzzle. Type in the five letter code...");
         rooms.put(keyroom2.n, keyroom2);
         keyroom2.setExits("","","","");
 
-        Room leverRoom = new Room("leverRoom", "Seems like this is a storage room. There is some food in the fridge you can eat. You also see a lever piece on top of some boxes. Maybe you should pick it up. Might be useful...");
+        Room leverRoom = new Room("leverRoom", "Seems like this is a storage room. There is some food in the fridge you can eat. "
+                                                + "You also see a lever piece on top of some boxes. Maybe you should pick it up. Might be useful...");
         rooms.put(leverRoom.n, leverRoom);
         leverRoom.setExits("","","","lockedRoom");
         Item lever = new Item("lever", "cool lever", true);
