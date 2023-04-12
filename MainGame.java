@@ -60,13 +60,11 @@ public class MainGame {
                     // case default:
                     //     System.out.println("I dont understand");
                     
-                    // case "use":
-                    //     String word2 = sen.split(" ")[1];
-                    //     if(word2.equals("key")) {
-                    //         for(Item i : p.keys) {
-
-                    //         }
-                    //     }
+                    case "use":
+                        String word2 = sen.split(" ")[1];
+                        if(word2.equals("redkey") && rooms.get(currentRoom).n.equals("hall2")) {
+                            
+                        }
 
                     
                 }
@@ -83,6 +81,9 @@ public class MainGame {
         s = s.replaceAll("OPEN", "USE");
         s = s.replaceAll("UNLOCK", "USE");
         s = s.replaceAll("LOOK", "SEARCH");
+        s = s.replaceAll("GREEN KEY", "GREENKEY");
+        s = s.replaceAll("RED KEY", "REDKEY");
+        s = s.replaceAll("BLACK KEY", "BLACKKEY");
         return s.toLowerCase();
     }
 
