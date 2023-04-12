@@ -63,13 +63,13 @@ class Room {
         rooms.put(death1.n, death1);
 
 
-        Room puzzle1 = new Room("puzzle", "SLAM! The door shuts behind you(north)."
+        Room riddleroom = new Room("puzzle", "SLAM! The door shuts behind you(north)."
                                             + "\nYou find yourself in a room, with a number on the wall, and an engraving you cant quite see.");
-        rooms.put(puzzle1.n, puzzle1);
+        rooms.put(riddleroom.n, riddleroom);
         Item engraving = new Item("engraving", "Welcome, to open the door you must answer a riddle, but careful! Three wrong answers and you die."
-                                                + "The riddle is: ", false);
-        puzzle1.items.add(engraving);
-        puzzle1.setExits("hall1", "", "", "");
+                                                + "\nThe riddle is: ", false);
+        riddleroom.items.add(engraving);
+        riddleroom.setExits("", "", "", "");
 
 
         Room keyroom1 = new Room("keyroom1", "You find yourself in a room, "
@@ -98,7 +98,7 @@ class Room {
         // make room, add to hashmap, set exits, add items
         hall2.setExits("keyroom4","lockedRoom","entrance","twoDoorsRoom");
         
-        Room keyroom4 = new Room("keyroom4","The room is too dark. Unable to see something. Could use a light source");
+        Room keyroom4 = new Room("keyroom4","You enter a dark room.   ");
         rooms.put(keyroom4.n, keyroom4);
         keyroom4.setExits("","","hall2","");
         
