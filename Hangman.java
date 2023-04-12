@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Hangman {
     static boolean guessed = false;
+    
 
     static void showWord(String[] arr) {
         System.out.println();
@@ -20,8 +21,8 @@ public class Hangman {
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        String answer ="hello";
+        int lives = 9;
+        String answer ="words";
         String[] hiddenWord = new String[answer.length()];
         for(int i = 0 ; i < hiddenWord.length; i++) {
             hiddenWord[i] = "_";
@@ -29,6 +30,11 @@ public class Hangman {
         ArrayList<String> letters = new ArrayList<>();
 
         while(!guessed) {
+            System.out.printf("%nlives: %d", lives);
+            if(lives <= 0) {
+                System.out.printf("%nYOU LOSE! THE WORD WAS %s", answer.toUpperCase());
+                break;
+            }
             
             showWord(hiddenWord);
             showGuessedLetters(letters);
@@ -51,8 +57,10 @@ public class Hangman {
                     }
                 }
             }
+            else lives--;
+            
         }
-        System.out.println("YOU WIN!");
+        if(lives > 0) System.out.println("YOU WIN!");
         sc.close();
     }
 }

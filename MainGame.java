@@ -15,6 +15,8 @@ public class MainGame {
             System.out.print("What is your name? ");
             name = sc.nextLine();
             System.out.printf("Welcome %s.%n", p.name);
+
+
             while(!gameOver) {
                 Room r = rooms.get(currentRoom);
                 System.out.printf("%s%n%n", r.d);
@@ -54,6 +56,9 @@ public class MainGame {
                             }
                         }
                         break;
+
+                    // case default:
+                    //     System.out.println("I dont understand");
                     
                     // case "use":
                     //     String word2 = sen.split(" ")[1];
@@ -63,8 +68,7 @@ public class MainGame {
                     //         }
                     //     }
 
-                    case default:
-                        System.out.println("I dont understand.");
+                    
                 }
                 //String[] command = sc.nextLine().split(" ");
                 //currentRoom = r.getExits();
@@ -96,6 +100,7 @@ public class MainGame {
             }
         }
 
+        
 
         //if you try to enter a locked room
         if(newRoom.equals("lockedRoom")){
