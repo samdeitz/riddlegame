@@ -8,10 +8,11 @@ public class MainGame {
     static boolean gameOver = false;
     static Player p = new Player("");
     static boolean hasTorch = false, hasLever = false, hasMarker = false;
+    static final Scanner sc = new Scanner(System.in);
+            
 
     public static void main(String[] args) {
             setup();
-            Scanner sc = new Scanner(System.in);
             System.out.print("What is your name? ");
             p.name = sc.nextLine();
             System.out.printf("Welcome %s.%n", p.name);
@@ -19,8 +20,8 @@ public class MainGame {
 
             while(!gameOver) {
                 Room r = rooms.get(currentRoom);
-                if(!r.locked) System.out.printf("%s%n%n", r.d);
-                else System.out.printf("Welcome to the %s.%n%n", r.n);
+
+                System.out.printf("%s%n%n", r.d);
                 System.out.print("What will you do? ");
                 String sen = sc.nextLine();
                 sen = translateSen(sen);
@@ -126,10 +127,7 @@ public class MainGame {
         String newRoom = rooms.get(currentRoom).getExits(d);
         System.out.println(newRoom);
 
-        if(rooms.get(newRoom).locked) {
-            System.out.println(rooms.get(newRoom).d);
-            return;
-        }
+        
 
         // if they try to exit, check if they have all four keys
         if(newRoom.equals("exit")) {
@@ -216,13 +214,12 @@ public class MainGame {
     }
 
     static void playRiddles() {
-        Scanner keyb = new Scanner(System.in);
         int wrong = 0;
         String guess;
         while(true) {
             checkWrong(wrong);
             System.out.println("Your first riddle: What kind of room has no doors or windows?");
-            guess = keyb.next().toLowerCase();
+            guess = sc.next().toLowerCase();
             if(guess.equals("mushroom")){
                 break;
             }
@@ -234,7 +231,7 @@ public class MainGame {
         while(true){
             checkWrong(wrong);
             System.out.println("Good, you passed the first riddle. Was that hard? Here is the second riddle: What gets wet while drying?");
-            guess = keyb.next().toLowerCase();
+            guess = sc.next().toLowerCase();
             if(guess.equals("towel")){
                 break;
             }
@@ -246,7 +243,7 @@ public class MainGame {
         while(true){
             checkWrong(wrong);
             System.out.println("Too easy. Ready for the hardest one? The final riddle: What food is so funny that it can be a comedian?");
-            guess = keyb.next().toLowerCase();
+            guess = sc.next().toLowerCase();
             if(guess.equals("crackers")){
                 break;
             }
@@ -254,13 +251,13 @@ public class MainGame {
                 wrong++;
             }
         }
-        keyb.close();
+    
     }
 
     static void checkWrong(int num) {
-        if(num % 3 == 0) {
+        if(num % 3 == 0 && num != 0) {
             p.lives--;
-            System.out.printf("You now have %d lives.", p.lives);
+            System.out.printf("You now have %d lives.%n", p.lives);
 
         }
     }
