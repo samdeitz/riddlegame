@@ -145,7 +145,7 @@ class Room {
                                             + "The stones on the ground seem to be the perfect size for the holes. Each stone has a letter."
                                             + "Arrange the stones to find the word combination that solves the puzzle. Type in the five letter code...", false);
         rooms.put(keyroom2.n, keyroom2);
-        keyroom2.setExits("","","","");
+        keyroom2.setExits("redroom","","","");
         Item key2 = new Item("blackkey", "A mat black key", true);
         keyroom2.items.add(key2);
 

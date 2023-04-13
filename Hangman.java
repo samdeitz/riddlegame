@@ -6,20 +6,31 @@ public class Hangman {
     static boolean guessed = false;
     
 
-    static void showWord(String[] arr) {
+    void showWord(String[] arr) {
         System.out.println();
         for(String s : arr) {
             System.out.print(s + " ");
         }
     }
 
-    static void showGuessedLetters(ArrayList<String> arr) {
+    void showGuessedLetters(ArrayList<String> arr) {
         System.out.println();
         for(String l : arr) {
             System.out.print(l + " ");
         }
     }
-    public static void main(String[] args) {
+
+    boolean guessedWord(String a, String[] g) {
+        boolean b = false;
+        String s = "";
+        for(int i = 0; i < g.length; i++) {
+            s += g[i];
+        }
+        if(a.equals(s)) b = true;
+        return b;
+    }
+
+    Hangman() {
         Scanner sc = new Scanner(System.in);
         int lives = 9;
         String answer ="words";
@@ -30,9 +41,12 @@ public class Hangman {
         ArrayList<String> letters = new ArrayList<>();
 
         while(!guessed) {
-            System.out.printf("%nlives: %d", lives);
+            System.out.printf("%nlives: %d%n", lives);
             if(lives <= 0) {
                 System.out.printf("%nYOU LOSE! THE WORD WAS %s", answer.toUpperCase());
+                break;
+            }
+            if(guessedWord(answer, hiddenWord)) {
                 break;
             }
             
@@ -53,14 +67,17 @@ public class Hangman {
             if(answer.contains(guess)) {
                 for(int i = 0; i < answer.length(); i++) {
                     if(String.valueOf(answer.charAt(i)).equals(guess)) {
-                        hiddenWord[i] = guess;
+                        hiddenWord[i] = guess.toLowerCase();
                     }
                 }
             }
             else lives--;
             
         }
-        if(lives > 0) System.out.println("YOU WIN!");
-        sc.close();
+        if(lives > 0) {
+            System.out.println("YOU WIN!");
+            MainGame.wonHangman = true;
+        }
+        
     }
 }

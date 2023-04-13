@@ -8,6 +8,7 @@ public class MainGame {
     static boolean gameOver = false;
     static Player p = new Player("");
     static boolean hasTorch = false, hasLever = false, hasMarker = false;
+    static boolean wonHangman = false;
 
     public static void main(String[] args) {
             setup();
@@ -164,7 +165,10 @@ public class MainGame {
                 System.out.println(rooms.get("blackroom").d);
                 return;
             }
-            if(hasMarker) System.out.println("You enter a room, you see a whiteboard with a game of hangman setup across from you, perhaps it could help you get the green key.");
+            if(hasMarker) {
+                System.out.println("You enter a room, you see a whiteboard with a game of hangman setup across from you, perhaps it could help you get the green key.");
+                playHangman();
+            }
             else {
                 System.out.println("You see a whiteboard, perhaps you could use a marker to draw on it.");
             }
@@ -191,6 +195,14 @@ public class MainGame {
         //change room
         currentRoom = newRoom;
         rooms.get(newRoom).setVisited();
+    }
+
+    static void playHangman() {
+        new Hangman();
+        if(wonHangman) {
+            p.inventory.add(rooms.get(currentRoom).getItem("greenkey"));
+            System.out.println("You won the green key!");
+        }
     }
 
     static void showInventory() {
