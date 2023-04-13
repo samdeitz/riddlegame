@@ -120,10 +120,13 @@ class Room {
         Room riddleroom = new Room("puzzle", "SLAM! The door shuts behind you(north)."
                                             + "\nYou find yourself in a room, with a number on the wall, and an engraving you cant quite see.", false);
         rooms.put(riddleroom.n, riddleroom);
-        Item engraving = new Item("engraving", "Welcome, to open the door you must answer a riddle, but careful! Three wrong answers and you die."
-                                                + "\nThe riddle is: ", false);
+        Item engraving = new Item("engraving", "Welcome, to open the door you must answer three riddles, but careful! Three wrong answers and you lose a life.", false);
         riddleroom.items.add(engraving);
         riddleroom.setExits("", "", "", "");
+
+        Item marker = new Item("marker", "A whiteboard marker, coloured black", false);
+        riddleroom.items.add(marker);
+
 
 
 
@@ -135,8 +138,6 @@ class Room {
         keyroom1.setExits("", "hall1", "", "");
         Item mat = new Item("mat", "plain red shag carpet.", false);
         Item key1 = new Item("redkey", "Shiny red key, perhaps useful for opening doors.", true);
-        Item marker = new Item("marker", "A whiteboard marker, coloured black", false);
-        keyroom1.items.add(marker);
         keyroom1.items.add(mat);
         keyroom1.items.add(key1);
 
@@ -146,21 +147,21 @@ class Room {
                                             + "Arrange the stones to find the word combination that solves the puzzle. Type in the five letter code...", false);
         rooms.put(keyroom2.n, keyroom2);
         keyroom2.setExits("redroom","","","");
-        Item key2 = new Item("blackkey", "A mat black key", true);
+        Item key2 = new Item("blackkey", "A mat black key", false);
         keyroom2.items.add(key2);
 
 
         Room keyroom3 = new Room("blackroom", "You enter a room, you see a whiteboard with a game of hangman setup across from you, perhaps it could help you get the green key.\n", true);
         rooms.put(keyroom3.n, keyroom3);
         keyroom3.setExits("", "", "", "entrance");
-        Item key3 = new Item("greenkey", "A shiny green key.", true);
+        Item key3 = new Item("greenkey", "A shiny green key.", false);
         keyroom3.items.add(key3);
 
         Room keyroom4 = new Room("greenroom","You see the lighted podiums, the big projector booting up with the words 'trivia thingy' on the screen.\n"
                                             + "Perhaps this gameshow you find yourself in could aid you in finding your last key.", true);
         rooms.put(keyroom4.n, keyroom4);
         keyroom4.setExits("","","hall2","");
-        Item key4 = new Item("bluekey", "A blue key", true);
+        Item key4 = new Item("bluekey", "A blue key", false);
         keyroom4.items.add(key4);
 
 

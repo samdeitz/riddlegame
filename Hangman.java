@@ -20,14 +20,12 @@ public class Hangman {
         }
     }
 
-    boolean guessedWord(String a, String[] g) {
-        boolean b = false;
+    void checkGuessedWord(String a, String[] g) {
         String s = "";
         for(int i = 0; i < g.length; i++) {
             s += g[i];
         }
-        if(a.equals(s)) b = true;
-        return b;
+        if(a.equals(s)) guessed = true;
     }
 
     Hangman() {
@@ -46,9 +44,8 @@ public class Hangman {
                 System.out.printf("%nYOU LOSE! THE WORD WAS %s", answer.toUpperCase());
                 break;
             }
-            if(guessedWord(answer, hiddenWord)) {
-                break;
-            }
+            checkGuessedWord(answer, hiddenWord);
+            
             
             showWord(hiddenWord);
             showGuessedLetters(letters);
@@ -76,7 +73,7 @@ public class Hangman {
         }
         if(lives > 0) {
             System.out.println("YOU WIN!");
-            MainGame.wonHangman = true;
+            
         }
         
     }
