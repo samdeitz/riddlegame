@@ -49,7 +49,7 @@ class Room {
             case 'e': return this.E;
             case 's': return this.S;
             case 'w': return this.W;
-            default: return null;
+            default: return "";
         }
     }
 
@@ -186,7 +186,7 @@ class Room {
 
 
         // Death rooms 
-        Room death1 = new Room("death1", "You walk in the room and step on a pressure plate, caving in the roof", false);
+        Room death1 = new Room("death", "You walk in the room and step on a pressure plate, caving in the roof", false);
         rooms.put(death1.n, death1);
 
         Room twoDoorsRoom = new Room("twoDoorsRoom", "The room is empty except the two ominous doors. You don't know where they lead. Choose one...",false);
