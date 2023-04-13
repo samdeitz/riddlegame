@@ -8,7 +8,6 @@ public class MainGame {
     static boolean gameOver = false;
     static Player p = new Player("");
     static boolean hasTorch = false, hasLever = false, hasMarker = false;
-    static boolean wonHangman = false;
 
     public static void main(String[] args) {
             setup();
@@ -141,13 +140,18 @@ public class MainGame {
         }
 
         if(newRoom.equals("puzzle")) {
+            
+            playRiddles();
+
+            System.out.println("Congrats, you answered all three riddles. Here is your reward.");
+            p.addItem(rooms.get(currentRoom).getItem("marker"));
+            hasMarker = true;
+            newRoom = "hall1";
 
             //riddle code
 
-
             // if solve all riddle back to old room
-            return;
-            //i luv him more(she doesnt)
+            //i luv him more(she doesnt)(she very much does!!!!!!!! <3)
 
         }
         
@@ -197,10 +201,67 @@ public class MainGame {
     }
 
     static void playHangman() {
-        new Hangman();
-        if(wonHangman) {
-            p.inventory.add(rooms.get(currentRoom).getItem("greenkey"));
-            System.out.println("You won the green key!");
+        while(true) {
+            new Hangman();
+            if(Hangman.guessed) {
+                p.addItem(rooms.get(currentRoom).getItem("greenkey"));
+                System.out.println("You won the green key!");
+                break;
+            }
+            else {
+                p.lives--;
+                System.out.printf("You now have %d lives.", p.lives);
+            }
+        }
+    }
+
+    static void playRiddles() {
+        Scanner keyb = new Scanner(System.in);
+        int wrong = 0;
+        String guess;
+        while(true) {
+            checkWrong(wrong);
+            System.out.println("Your first riddle: What kind of room has no doors or windows?");
+            guess = keyb.next().toLowerCase();
+            if(guess.equals("mushroom")){
+                break;
+            }
+            else{
+                wrong++;
+            }
+
+        }
+        while(true){
+            checkWrong(wrong);
+            System.out.println("Good, you passed the first riddle. Was that hard? Here is the second riddle: What gets wet while drying?");
+            guess = keyb.next().toLowerCase();
+            if(guess.equals("towel")){
+                break;
+            }
+            else{
+                wrong++;
+            }
+        }
+
+        while(true){
+            checkWrong(wrong);
+            System.out.println("Too easy. Ready for the hardest one? The final riddle: What food is so funny that it can be a comedian?");
+            guess = keyb.next().toLowerCase();
+            if(guess.equals("crackers")){
+                break;
+            }
+            else{
+                wrong++;
+            }
+        }
+        keyb.close();
+    }
+
+    static void checkWrong(int num) {
+        if(num % 3 == 0) {
+            p.lives--;
+            System.out.printf("You now have %d lives.", p.lives);
+
         }
     }
 
