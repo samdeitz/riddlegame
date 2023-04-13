@@ -156,28 +156,27 @@ public class MainGame {
         if(newRoom.equals("redroom")){
             // if locked(dont have key1) print message and return
             if (rooms.get("redroom").locked) {
-                System.out.println(rooms.get("blackroom").d);
+                System.out.println("This exit is locked. You need the red key to enter.\n");
                 return;
             }
         }
         if(newRoom.equals("blackroom")) {
             if(rooms.get("blackroom").locked) {
-                System.out.println(rooms.get("blackroom").d);
+                System.out.println("This exit is locked. You need the black key to enter.\n");
                 return;
             }
             if(hasMarker) {
-                System.out.println("You enter a room, you see a whiteboard with a game of hangman setup across from you, perhaps it could help you get the green key.");
                 playHangman();
             }
             else {
-                System.out.println("You see a whiteboard, perhaps you could use a marker to draw on it.");
+                System.out.println("Perhaps you could use a marker to draw on it.");
             }
         }
 
         // if they try to enter last room
         if(newRoom.equals("greenroom")){
             if (rooms.get("green").locked) {
-                System.out.println(rooms.get("blackroom").d);
+                System.out.println("This exit is locked. You need the green key to enter.\n");
                 return;
             }
             if(hasTorch){

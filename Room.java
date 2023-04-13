@@ -150,13 +150,14 @@ class Room {
         keyroom2.items.add(key2);
 
 
-        Room keyroom3 = new Room("blackroom", "This room is locked, you must have a black key to open it.\n", true);
+        Room keyroom3 = new Room("blackroom", "You enter a room, you see a whiteboard with a game of hangman setup across from you, perhaps it could help you get the green key.\n", true);
         rooms.put(keyroom3.n, keyroom3);
         keyroom3.setExits("", "", "", "entrance");
         Item key3 = new Item("greenkey", "A shiny green key.", true);
         keyroom3.items.add(key3);
 
-        Room keyroom4 = new Room("greenroom","This room is locked, you must have a green key to unlock it.\n", true);
+        Room keyroom4 = new Room("greenroom","You see the lighted podiums, the big projector booting up with the words 'trivia thingy' on the screen.\n"
+                                            + "Perhaps this gameshow you find yourself in could aid you in finding your last key.", true);
         rooms.put(keyroom4.n, keyroom4);
         keyroom4.setExits("","","hall2","");
         Item key4 = new Item("bluekey", "A blue key", true);
@@ -165,7 +166,7 @@ class Room {
 
 
         // Locked room blocking second key, must have first to enter 
-        Room lockedRoom = new Room("redroom", "This exit is locked. You need the first key to enter.\n", true);
+        Room lockedRoom = new Room("redroom", "You are in an dimly lighted room, a painting to your left, and two doors, to your west and south.\n", true);
         rooms.put(lockedRoom.n, lockedRoom);
         lockedRoom.setExits("","leverRoom","keyroom2", "hall2");
 
