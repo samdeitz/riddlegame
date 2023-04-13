@@ -83,13 +83,16 @@ public class MainGame {
                         if(word2.equals("blackkey") && reqRoom.n.equals("entrance")) {
                             rooms.get("blackroom").locked = false;
                             System.out.println("You open the black room, and find yourself in a game?");
-
+                        }
+                        if(word2.equals("lever") && reqRoom.n.equals("greenroom")) {
+                            System.out.println("You use the lever and bring the mechanism to life, revealing to you the gameshow like surroundings.");
                         }
 
                     
                 }
                 //String[] command = sc.nextLine().split(" ");
                 //currentRoom = r.getExits();
+            
             }
         } 
 
@@ -108,6 +111,13 @@ public class MainGame {
     }
 
     static void moveToRoom(char d) {
+
+        // they go an impossible direciton
+        if(rooms.get(currentRoom).getExits(d).equals("")) {
+            System.out.println("You hit a wall and pass out.");
+            p.lives--;
+            return;
+        }
 
         //find new room
         String newRoom = rooms.get(currentRoom).getExits(d);
@@ -139,39 +149,38 @@ public class MainGame {
         
 
         //if you try to enter a locked room
-        if(newRoom.equals("lockedRoom")){
-            boolean locked = true;
-
-            // find key1 in key list
-            for(Item key : p.keys) {
-
-                // unlock
-                if(key.n.equals("key1")) {
-                    locked = false;
-                }
-            }
-
-            // if still locked(dont have key1) print message and return
-            if (locked) {
-                System.out.println("You cannot go any further you do not have the right key to enter this locked room.");
+        if(newRoom.equals("redroom")){
+            // if locked(dont have key1) print message and return
+            if (rooms.get("redroom").locked) {
+                System.out.println(rooms.get("blackroom").d);
                 return;
             }
         }
+        if(newRoom.equals("blackroom")) {
+            if(rooms.get("blackroom").locked) {
+                System.out.println(rooms.get("blackroom").d);
+                return;
+            }
+            System.out.println("You enter a room, you see a whiteboard with a game of hangman setup across from you, perhaps it could help you get the green key.");
+        }
 
         // if they try to enter last room
-        if(newRoom.equals("keyroom4")){
+        if(newRoom.equals("greenroom")){
+            if (rooms.get("green").locked) {
+                System.out.println(rooms.get("blackroom").d);
+                return;
+            }
             if(hasTorch){
                 System.out.println("You use the torch to light up the room. There is a broken mechanism on the wall. Maybe you can find an item to fix it.");
             }
-            
+            else System.out.println("You are in a dark room, perhpas you could find something to light it up.");
+        }
+
+        
+        if(rooms.get(newRoom).n.equals("death")) {
+            p.lives--;
         }
         
-
-        // they go an impossible direciton
-        if(newRoom.equals("")) {
-            System.out.println("You hit a wall and pass out.");
-            return;
-        }
 
         //change room
         currentRoom = newRoom;

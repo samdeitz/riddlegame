@@ -1,7 +1,7 @@
 
 import java.util.ArrayList;
 public class Player {
-    int lives = 5;
+    int lives = 6;
     int food = 5;
     String name;
     ArrayList<Item> inventory = new ArrayList<>();
