@@ -68,6 +68,15 @@ class Room {
         return null;
     }
 
+    void removeItem(String name) {
+        for(Item i : items) {
+            if(i.n.equals(name)){
+                items.remove(i);
+                break;
+            }
+        }
+    }
+
     static Room getRoom(String name, HashMap<String, Room> rooms) {
 
         Room room = null;
@@ -122,7 +131,7 @@ class Room {
         rooms.put(riddleroom.n, riddleroom);
         Item engraving = new Item("engraving", "Welcome, to open the door you must answer three riddles, but careful! Three wrong answers and you lose a life.", false);
         riddleroom.items.add(engraving);
-        riddleroom.setExits("", "", "", "");
+        riddleroom.setExits("hall1", "", "", "");
 
         Item marker = new Item("marker", "A whiteboard marker, coloured black", false);
         riddleroom.items.add(marker);

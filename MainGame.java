@@ -22,6 +22,7 @@ public class MainGame {
                 Room r = rooms.get(currentRoom);
 
                 System.out.printf("%s%n%n", r.d);
+                checkGame();
                 System.out.print("What will you do? ");
                 String sen = sc.nextLine();
                 sen = translateSen(sen);
@@ -40,6 +41,8 @@ public class MainGame {
                         for(Item i : r.items) {
                             if(i.n.equals(sen.split(" ")[1])) {
                                 p.addItem(r.getItem(sen.split(" ")[1]));
+                                r.removeItem(sen.split(" ")[1]);
+
                                 System.out.printf("Picked up item %s.%n", i.n);
                             }
                             if(sen.split(" ")[1].equals("torch")) {
@@ -63,7 +66,9 @@ public class MainGame {
                         for(Item i : r.items) {
                             if(i.hidden) {
                                 p.addItem(i);
+                                r.removeItem(i.n);
                                 System.out.printf("Found item %s!%n", i.n);
+                                break;
                             }
                         }
                         break;
@@ -137,21 +142,7 @@ public class MainGame {
             }
         }
 
-        if(newRoom.equals("puzzle")) {
-            
-            playRiddles();
-
-            System.out.println("Congrats, you answered all three riddles. Here is your reward.");
-            p.addItem(rooms.get(currentRoom).getItem("marker"));
-            hasMarker = true;
-            newRoom = "hall1";
-
-            //riddle code
-
-            // if solve all riddle back to old room
-            //i luv him more(she doesnt)(she very much does!!!!!!!! <3)
-
-        }
+        // riddle room --> trapped until they get 3 right
         
 
         //if you try to enter a locked room
@@ -167,12 +158,7 @@ public class MainGame {
                 System.out.println("This exit is locked. You need the black key to enter.\n");
                 return;
             }
-            if(hasMarker) {
-                playHangman();
-            }
-            else {
-                System.out.println("Perhaps you could use a marker to draw on it.");
-            }
+            
         }
 
         // if they try to enter last room
@@ -203,6 +189,7 @@ public class MainGame {
             new Hangman();
             if(Hangman.guessed) {
                 p.addItem(rooms.get(currentRoom).getItem("greenkey"));
+                rooms.get(currentRoom).removeItem("greenkey");
                 System.out.println("You won the green key!");
                 break;
             }
@@ -215,50 +202,81 @@ public class MainGame {
 
     static void playRiddles() {
         int wrong = 0;
-        String guess;
-        while(true) {
-            checkWrong(wrong);
-            System.out.println("Your first riddle: What kind of room has no doors or windows?");
-            guess = sc.next().toLowerCase();
-            if(guess.equals("mushroom")){
-                break;
-            }
-            else{
-                wrong++;
-            }
+        String[] riddles = {"Your first riddle: What kind of room has no doors or windows?", "Good, you passed the first riddle. Was that hard? Here is the second riddle: What gets wet while drying?",
+                            "Too easy. Ready for the hardest one? The final riddle: What food is so funny that it can be a comedian?"};
+        String[] ans = {"mushroom", "towel", "crackers"};
 
-        }
-        while(true){
-            checkWrong(wrong);
-            System.out.println("Good, you passed the first riddle. Was that hard? Here is the second riddle: What gets wet while drying?");
-            guess = sc.next().toLowerCase();
-            if(guess.equals("towel")){
-                break;
+        int i = 0;
+        while(i < riddles.length) {
+            boolean a = false;
+            System.out.print(riddles[i]);
+            String answer = sc.nextLine().toLowerCase();
+            if(answer.equals(ans[i])) a = true;
+            if(a) {
+                i++;
+                System.out.println("Good job! Heres your next question: ");
             }
-            else{
+            else {
                 wrong++;
+                if(wrong %3 == 0 && wrong != 0) System.out.printf("WRONG! You now have %d lives.%n", p.lives);
+                else System.out.println("Wrong!");
+               
             }
         }
+        
 
-        while(true){
-            checkWrong(wrong);
-            System.out.println("Too easy. Ready for the hardest one? The final riddle: What food is so funny that it can be a comedian?");
-            guess = sc.next().toLowerCase();
-            if(guess.equals("crackers")){
-                break;
-            }
-            else{
-                wrong++;
-            }
-        }
     
     }
 
-    static void checkWrong(int num) {
-        if(num % 3 == 0 && num != 0) {
-            p.lives--;
-            System.out.printf("You now have %d lives.%n", p.lives);
+    static void playTrivia(){
+        String[] qs = {"What does \"HTTP\" stand for?", "Who discovered penicillin?", "What is the name of Batman's butler?", "What is the common name for dried plums?", "In which country Adolph Hitler was born?", "What genre of music did Taylor Swift start in?", "What's the name of the paradise warriors go to after death?", "Bill Gates is the founder of which company?", "The video game “Happy Feet” features what animals?","If there are six apples and you take away four, how many do you have?"};
+        String[] ans = {"hypertext transfer protocol", "alexander fleming", "alfred", "prunes", "austria", "country", "valhalla", "microsoft", "penguins", "four"};
+        int right = 0;
+        for(int i = 0; i < qs.length; i++) {
+             
+            System.out.println(qs[i]);
+            String answer = sc.nextLine().toLowerCase();
+            if(answer.equals(ans[i])) {
+                right++;
+                System.out.printf("Good Job! That's %d right!!%nHeres your next question: %n", right);
+            }
+            else System.out.println("WRONG! Better luck next time.");
+        }
+        if(right >= qs.length/2) {
+            System.out.println("You Win! You get the final blue key!");
+            p.addItem(rooms.get(currentRoom).getItem("bluekey"));
+            rooms.get(currentRoom).removeItem("bluekey");
+        }
+    }
 
+    static void checkGame() {
+        if(currentRoom.equals("puzzle")) {
+            // start the game
+            playRiddles();
+
+            System.out.println("Congrats, you answered all three riddles. Here is your reward.");
+
+            // give reward marker - remove from room
+            p.addItem(rooms.get(currentRoom).getItem("marker"));
+            rooms.get(currentRoom).removeItem("marker");
+            
+            // set has marker, go back to hall1
+            hasMarker = true;
+            
+            //i luv him more(she doesnt)(she very much does!!!!!!!! <3)
+        }
+
+        if(currentRoom.equals("greenroom")) {
+            playTrivia();
+        }
+
+        if(currentRoom.equals("blackroom")) {
+            if(hasMarker) {
+                playHangman();
+            }
+            else {
+                System.out.println("Perhaps you could use a marker to draw on it.");
+            }
         }
     }
 
