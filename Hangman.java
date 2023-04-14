@@ -41,7 +41,7 @@ public class Hangman {
         while(!guessed) {
             System.out.printf("%nlives: %d%n", lives);
             if(lives <= 0) {
-                System.out.printf("%nYOU LOSE! THE WORD WAS %s", answer.toUpperCase());
+                System.out.printf("%nYOU LOSE!%n");
                 break;
             }
             checkGuessedWord(answer, hiddenWord);

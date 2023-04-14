@@ -118,7 +118,7 @@ class Room {
         Room hall1 = new Room("hall1", "You find yourself at a crossroads, three entrances, north, west, and south, "
                                 + "\nleaving the main room to your east. Where will you go?", false);
         rooms.put(hall1.n, hall1);
-        hall1.setExits("death1", "entrance","puzzle", "keyroom");
+        hall1.setExits("death", "entrance","puzzle", "keyroom");
 
         Room hall2 = new Room("hall2", "The hallway in front of you split into 3 paths. Which way will you go?", false);
         rooms.put(hall2.n, hall2);
@@ -142,7 +142,7 @@ class Room {
 
         // KEYROOMS HOUSING EACH KEY
         Room keyroom1 = new Room("keyroom", "You find yourself in a room, "
-                                + "there is a mat in the middle and a marker in the corner and the exit door to your east.", false);
+                                + "there is a mat in the middle and the exit door to your east.", false);
         rooms.put(keyroom1.n, keyroom1);
         keyroom1.setExits("", "hall1", "", "");
         Item mat = new Item("mat", "plain red shag carpet.", false);
@@ -151,9 +151,7 @@ class Room {
         keyroom1.items.add(key1);
 
 
-        Room keyroom2 = new Room("keyroom2", "The room is well lighted. In front of you is a huge stone wall. \"wordle\" is engraved in big writing. There are five holes lined up horizontally. "
-                                            + "The stones on the ground seem to be the perfect size for the holes. Each stone has a letter."
-                                            + "Arrange the stones to find the word combination that solves the puzzle. Type in the five letter code...", false);
+        Room keyroom2 = new Room("keyroom2", "Welcome to the black key room. Play along with my questions to get your reward.", false);
         rooms.put(keyroom2.n, keyroom2);
         keyroom2.setExits("redroom","","","");
         Item key2 = new Item("blackkey", "A mat black key", false);
@@ -200,22 +198,23 @@ class Room {
         Room death1 = new Room("death", "You walk in the room and step on a pressure plate, caving in the roof", false);
         rooms.put(death1.n, death1);
 
-        Room twoDoorsRoom = new Room("twoDoorsRoom", "The room is empty except the two ominous doors. You don't know where they lead. Choose one...",false);
+        Room twoDoorsRoom = new Room("twoDoorsRoom", "The room is empty except the two ominous doors. One to the North, one to the South. You don't know where they lead. Choose one...",false);
         rooms.put(twoDoorsRoom.n, twoDoorsRoom);
-        twoDoorsRoom.setExits("","","","");
+        twoDoorsRoom.setExits("wrong1","hall2","right1","");
 
         Room wrong1 = new Room("wrong1", "You fell straight into a pit",false);
         rooms.put(wrong1.n, wrong1);
 
-        Room right1 = new Room("right1", "This room has another two doors. Which will you enter?",false);
+        Room right1 = new Room("right1", "This room has another two doors. One to the East, one to the West. Which will you enter?",false);
         rooms.put(right1.n, right1);
         right1.setExits("","wrong2","","right2");
 
         Room wrong2 = new Room("wrong2", "You fell into lava",false);
         rooms.put(wrong2.n, wrong2);
 
-        Room right2 = new Room("right2", "This room is identical to the previous. Choose a door again.", false);
+        Room right2 = new Room("right2", "This room is identical to the first room. North or South, choose a door.", false);
         rooms.put(right2.n, right2);
+        right2.setExits("torchRoom", "", "wrong3", "");
 
         Room wrong3 = new Room("wrong3", "A big bolder falls on you. You died.", false);
         rooms.put(wrong3.n, wrong3);

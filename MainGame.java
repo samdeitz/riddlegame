@@ -7,7 +7,7 @@ public class MainGame {
     static HashMap<String, Room> rooms = new HashMap<>();
     static boolean gameOver = false;
     static Player p = new Player("");
-    static boolean hasTorch = false, hasLever = false, hasMarker = false;
+    static boolean hasTorch = false, hasLever = false, hasMarker = false, hasMat = false;
     static final Scanner sc = new Scanner(System.in);
             
 
@@ -16,12 +16,10 @@ public class MainGame {
             System.out.print("What is your name? ");
             p.name = sc.nextLine();
             System.out.printf("Welcome %s.%n", p.name);
-
+            System.out.printf("%s%n%n", rooms.get(currentRoom).d);
 
             while(!gameOver) {
                 Room r = rooms.get(currentRoom);
-
-                System.out.printf("%s%n%n", r.d);
                 checkGame();
                 System.out.print("What will you do? ");
                 String sen = sc.nextLine();
@@ -39,23 +37,25 @@ public class MainGame {
                     
                     case "pickup":
                         for(Item i : r.items) {
+            
                             if(i.n.equals(sen.split(" ")[1])) {
                                 p.addItem(r.getItem(sen.split(" ")[1]));
                                 r.removeItem(sen.split(" ")[1]);
 
-                                System.out.printf("Picked up item %s.%n", i.n);
+                                if(i.n.equals("torch")) {
+                                    hasTorch = true;
+                                    currentRoom = "hall2";
+                                    System.out.println(rooms.get(currentRoom).d);
+                                }
+                                if(i.n.equals("lever")) hasLever = true;
+                                if(i.n.equals("marker")) hasMarker = true;
+                                
+                                if(i.n.equals("mat")) hasMat = true;
+                                break;
                             }
-                            if(sen.split(" ")[1].equals("torch")) {
-                                hasTorch = true;
-                            }
-                            if(sen.split(" ")[1].equals("lever")) {
-                                hasLever = true;
-                            }
-                            if(sen.split(" ")[1].equals("marker")) {
-                                hasMarker = true;
-                            }
+                            
                         }
-                        break;
+                        
                     case "read":
 
                         for(Item i : r.items) {
@@ -67,7 +67,6 @@ public class MainGame {
                             if(i.hidden) {
                                 p.addItem(i);
                                 r.removeItem(i.n);
-                                System.out.printf("Found item %s!%n", i.n);
                                 break;
                             }
                         }
@@ -95,6 +94,7 @@ public class MainGame {
                         }
                         if(word2.equals("lever") && reqRoom.n.equals("greenroom")) {
                             System.out.println("You use the lever and bring the mechanism to life, revealing to you the gameshow like surroundings.");
+                            playTrivia();
                         }
 
                     
@@ -104,7 +104,11 @@ public class MainGame {
             
             }
         } 
-
+    
+    /**
+     * translates words so input is correct
+     * @param s word to be translated
+     */
     static String translateSen(String s) {
 
         // make uppercase and replace
@@ -119,12 +123,16 @@ public class MainGame {
         return s.toLowerCase();
     }
 
+    /**
+     * move to room based on direction (n,e,s,w)
+     * @param d direction to go
+     */
     static void moveToRoom(char d) {
 
         // they go an impossible direciton
         if(rooms.get(currentRoom).getExits(d).equals("")) {
             System.out.println("You hit a wall and pass out.");
-            p.lives--;
+            p.removeLife();
             return;
         }
 
@@ -140,6 +148,9 @@ public class MainGame {
                 System.out.println("You must get all 4 keys to exit this room.");
                 return;
             }
+            else {
+                System.out.printf("CONGRADULATIONS YOU WON THE GAME!!! %nYou ended with %d lives. %nYou ended %s the mat.", p.lives, hasMat ? "with" : "without");
+            }
         }
 
         // riddle room --> trapped until they get 3 right
@@ -153,95 +164,135 @@ public class MainGame {
                 return;
             }
         }
+
+        //if they enter the locked room
         if(newRoom.equals("blackroom")) {
+
+            //check locked
             if(rooms.get("blackroom").locked) {
                 System.out.println("This exit is locked. You need the black key to enter.\n");
                 return;
             }
-            
         }
 
-        // if they try to enter last room
+        // if they try to enter final room
         if(newRoom.equals("greenroom")){
-            if (rooms.get("green").locked) {
+
+            // check locked
+            if (rooms.get("greenroom").locked) {
                 System.out.println("This exit is locked. You need the green key to enter.\n");
                 return;
             }
+
+            //if the room is lit up
             if(hasTorch){
                 System.out.println("You use the torch to light up the room. There is a broken mechanism on the wall. Maybe you can find an item to fix it.");
             }
-            else System.out.println("You are in a dark room, perhpas you could find something to light it up.");
+            else {
+                System.out.println("You are in a dark room, perhpas you could find something to light it up.");
+                newRoom = "hall2";
+            }
+        }
+        
+        if(newRoom.equals("wrong1") || newRoom.equals("wrong2") || newRoom.equals("wrong3")){
+            System.out.println(rooms.get(newRoom).d);
+            p.removeLife();
+            newRoom = "twoDoorsRoom"; 
         }
 
-        
+        //die if enter death room
         if(rooms.get(newRoom).n.equals("death")) {
-            p.lives--;
+            System.out.println(rooms.get(newRoom).d + ". \nYou are now sent back the the previous room.");
+            p.removeLife();
+            return;
+        }
+
+        if(rooms.get(newRoom).n.equals("keyroom2")) {
+            p.addItem(rooms.get(newRoom).getItem("blackkey"));
         }
         
-
         //change room
         currentRoom = newRoom;
-        rooms.get(newRoom).setVisited();
+        rooms.get(currentRoom).setVisited();
+        System.out.printf("%s%n%n", rooms.get(currentRoom).d);
     }
 
     static void playHangman() {
+
+        // play hangman until they win
         while(true) {
             new Hangman();
+
+            // if they guessed the word
             if(Hangman.guessed) {
+
+                //add item to inventory
                 p.addItem(rooms.get(currentRoom).getItem("greenkey"));
                 rooms.get(currentRoom).removeItem("greenkey");
                 System.out.println("You won the green key!");
                 break;
             }
-            else {
-                p.lives--;
-                System.out.printf("You now have %d lives.", p.lives);
-            }
+            else p.removeLife();
         }
     }
 
+    /**
+     * play the riddles game
+     */
     static void playRiddles() {
+
         int wrong = 0;
         String[] riddles = {"Your first riddle: What kind of room has no doors or windows?", "Good, you passed the first riddle. Was that hard? Here is the second riddle: What gets wet while drying?",
                             "Too easy. Ready for the hardest one? The final riddle: What food is so funny that it can be a comedian?"};
         String[] ans = {"mushroom", "towel", "crackers"};
 
+        // until they get all riddles right
         int i = 0;
         while(i < riddles.length) {
-            boolean a = false;
+
+            //print riddle get answer
             System.out.print(riddles[i]);
             String answer = sc.nextLine().toLowerCase();
-            if(answer.equals(ans[i])) a = true;
-            if(a) {
+
+            // if answer corrosponds with correct answer, move on
+            if(answer.equals(ans[i])) {
                 i++;
                 System.out.println("Good job! Heres your next question: ");
             }
+            
+            // add to wrong --> every multiple 3 wrong they lose a life
             else {
                 wrong++;
                 if(wrong %3 == 0 && wrong != 0) System.out.printf("WRONG! You now have %d lives.%n", p.lives);
                 else System.out.println("Wrong!");
-               
             }
         }
-        
-
-    
     }
 
+    /**
+     * play the trivia game
+     */
     static void playTrivia(){
         String[] qs = {"What does \"HTTP\" stand for?", "Who discovered penicillin?", "What is the name of Batman's butler?", "What is the common name for dried plums?", "In which country Adolph Hitler was born?", "What genre of music did Taylor Swift start in?", "What's the name of the paradise warriors go to after death?", "Bill Gates is the founder of which company?", "The video game “Happy Feet” features what animals?","If there are six apples and you take away four, how many do you have?"};
         String[] ans = {"hypertext transfer protocol", "alexander fleming", "alfred", "prunes", "austria", "country", "valhalla", "microsoft", "penguins", "four"};
         int right = 0;
+
+        // loop through each trivia --> need to get at least half right
         for(int i = 0; i < qs.length; i++) {
              
+            // give question get answer
             System.out.println(qs[i]);
             String answer = sc.nextLine().toLowerCase();
+
+            // if correct answer add to right
             if(answer.equals(ans[i])) {
                 right++;
                 System.out.printf("Good Job! That's %d right!!%nHeres your next question: %n", right);
             }
             else System.out.println("WRONG! Better luck next time.");
         }
+
+        // if they got 5 or more right they get the key
         if(right >= qs.length/2) {
             System.out.println("You Win! You get the final blue key!");
             p.addItem(rooms.get(currentRoom).getItem("bluekey"));
@@ -249,7 +300,12 @@ public class MainGame {
         }
     }
 
+    /**
+     * check if game needs to be played based on room.
+     */
     static void checkGame() {
+
+        // if they play a the riddles
         if(currentRoom.equals("puzzle")) {
             // start the game
             playRiddles();
@@ -263,13 +319,10 @@ public class MainGame {
             // set has marker, go back to hall1
             hasMarker = true;
             
-            //i luv him more(she doesnt)(she very much does!!!!!!!! <3)
+            //i luv him more(she doesnt)(she very much does not!!!!!!!! <3)
         }
 
-        if(currentRoom.equals("greenroom")) {
-            playTrivia();
-        }
-
+        // if they enter the hangman room play hangman
         if(currentRoom.equals("blackroom")) {
             if(hasMarker) {
                 playHangman();
@@ -280,6 +333,9 @@ public class MainGame {
         }
     }
 
+    /**
+     * show contents of player inventory
+     */
     static void showInventory() {
         // print thier inventory
         for(Item i : p.inventory) {
@@ -287,6 +343,9 @@ public class MainGame {
         }
     }
 
+    /**
+     * setup game --> start at entrance, initialize rooms
+     */
     static void setup() {
         // start
         currentRoom = "entrance";

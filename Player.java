@@ -8,28 +8,29 @@ public class Player {
     ArrayList<Item> keys = new ArrayList<>();
 
 
+    /**
+     * creates player with name
+     * @param name player name
+     */
     Player(String name) {
         this.name = name;
     }
 
+    /**
+     * get rid of life
+     */
     void removeLife() {
         this.lives--;
         System.out.printf("You now have %d lives.%n", this.lives);
     }
 
-    void removeFood() {
-        this.food--;
-        System.out.printf("You now have %d hunger.", this.food);
-    }
-
-    void addFood(){
-        this.food++;
-        System.out.printf("You now have %d hunger.", this.food);
-    }
-
+    /**
+     * add item to player inventory
+     * @param i item to be added to inventory
+     */
     void addItem(Item i) {
         inventory.add(i);
-        
+        System.out.printf("Added item %s.%n", i.n);
     }
 
 
