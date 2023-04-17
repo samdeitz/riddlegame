@@ -37,11 +37,15 @@ public class MainGame {
                     
                     case "pickup":
                         for(Item i : r.items) {
-            
+                            
+                            // if item is what they input
                             if(i.n.equals(sen.split(" ")[1])) {
+
+                                //add to inventory, remove from room
                                 p.addItem(r.getItem(sen.split(" ")[1]));
                                 r.removeItem(sen.split(" ")[1]);
-
+                                
+                                // special case items --> needed for task
                                 if(i.n.equals("torch")) {
                                     hasTorch = true;
                                     currentRoom = "hall2";
@@ -58,11 +62,15 @@ public class MainGame {
                         
                     case "read":
 
+                        // if readable item is in room
                         for(Item i : r.items) {
                             if(i.n.equals(sen.split(" ")[1])) System.out.println(i.d);
+                            else System.out.println("I don't understanc");
                         }
                         break;
+
                     case "search":
+                        // if item is marked as hidden, give
                         for(Item i : r.items) {
                             if(i.hidden) {
                                 p.addItem(i);
@@ -78,6 +86,8 @@ public class MainGame {
                     case "use":
                         String word2 = sen.split(" ")[1];
                         Room reqRoom = rooms.get(currentRoom);
+
+                        // if they try to use keys on doors
                         if(word2.equals("redkey") && reqRoom.n.equals("hall2")) {
                             rooms.get("redroom").locked = false;
                             System.out.println("You open the locked room, you find there are two directions, east and south.");
@@ -92,6 +102,8 @@ public class MainGame {
                             rooms.get("blackroom").locked = false;
                             System.out.println("You open the black room, and find yourself in a game?");
                         }
+
+                        // if they try to use lever to play last game
                         if(word2.equals("lever") && reqRoom.n.equals("greenroom")) {
                             System.out.println("You use the lever and bring the mechanism to life, revealing to you the gameshow like surroundings.");
                             playTrivia();
@@ -140,21 +152,7 @@ public class MainGame {
         String newRoom = rooms.get(currentRoom).getExits(d);
         System.out.println(newRoom);
 
-        
-
-        // if they try to exit, check if they have all four keys
-        if(newRoom.equals("exit")) {
-            if(p.keys.size() != 4) {
-                System.out.println("You must get all 4 keys to exit this room.");
-                return;
-            }
-            else {
-                System.out.printf("CONGRADULATIONS YOU WON THE GAME!!! %nYou ended with %d lives. %nYou ended %s the mat.", p.lives, hasMat ? "with" : "without");
-            }
-        }
-
-        // riddle room --> trapped until they get 3 right
-        
+                
 
         //if you try to enter a locked room
         if(newRoom.equals("redroom")){
@@ -193,7 +191,9 @@ public class MainGame {
                 newRoom = "hall2";
             }
         }
-        
+
+
+        // memory game doors
         if(newRoom.equals("wrong1") || newRoom.equals("wrong2") || newRoom.equals("wrong3")){
             System.out.println(rooms.get(newRoom).d);
             p.removeLife();
@@ -207,8 +207,16 @@ public class MainGame {
             return;
         }
 
-        if(rooms.get(newRoom).n.equals("keyroom2")) {
-            p.addItem(rooms.get(newRoom).getItem("blackkey"));
+        // if they try to exit, check if they have all four keys
+        if(newRoom.equals("exit")) {
+            if(p.keys.size() != 4) {
+                System.out.println("You must get all 4 keys to exit this room.");
+                return;
+            }
+            else {
+                System.out.printf("CONGRADULATIONS YOU WON THE GAME!!! %nYou ended with %d lives. %nYou ended %s the mat.", p.lives, hasMat ? "with" : "without");
+                System.exit(0);
+            }
         }
         
         //change room
@@ -217,6 +225,10 @@ public class MainGame {
         System.out.printf("%s%n%n", rooms.get(currentRoom).d);
     }
 
+
+    /**
+     * initilize hangman and check if they guess the word
+     */
     static void playHangman() {
 
         // play hangman until they win
