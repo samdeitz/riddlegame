@@ -334,7 +334,7 @@ public class MainGame {
             // set has marker, go back to hall1
             hasMarker = true;
             
-            //TODO i luv him more(she doesnt)(she very much does not!!!!!!!! <3)(I VEEEERRRRYYYYY MUCCCHHHH DDDDDDDDDDOOOOOOOOO.)(NOEP)
+            //i luv him more(she doesnt)(she very much does not!!!!!!!! <3)
         }
 
         // if they enter the hangman room play hangman
