@@ -95,6 +95,5 @@ public class Hangman {
                 }
             }
             if(guessed) System.out.println("YOU WIN!");
-        }
-
+        }  
     }
