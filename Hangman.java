@@ -61,15 +61,15 @@ public class Hangman {
         while(!guessed) {
 
             System.out.printf("%nlives: %d%n", lives);
+            showWord(hiddenWord);
+            showGuessedLetters(letters);
 
             // if they have 0 lives, break
             if(lives <= 0) {
                 System.out.printf("%nYOU LOSE!%n");
                 break;
             }
-            checkGuessedWord(answer, hiddenWord);
-            showWord(hiddenWord);
-            showGuessedLetters(letters);
+            
 
             // take guess
             System.out.print("\nWhat is your guess? ");
@@ -78,7 +78,7 @@ public class Hangman {
 
 
             // if they guess with one letter 
-            if(guess.matches("[A-Za-z]{1}")) continue;
+            if(!guess.matches("[A-Za-z]{1}")) continue;
 
             // if they guessed before
             if(letters.contains(guess)) {
@@ -99,12 +99,13 @@ public class Hangman {
             }
             else lives--;
             
+            checkGuessedWord(answer, hiddenWord);
         }
+        showWord(hiddenWord);
 
         if(guessed) {
-            System.out.println("YOU WIN!");
+            System.out.println("\nYOU WIN!");
             
         }
-        sc.close();
     }
 }

@@ -33,6 +33,15 @@ public class Player {
         System.out.printf("Added item %s.%n", i.n);
     }
 
+    Item getItem(String name) {
+        for(Item i : inventory) {
+            if (i.n.equals(name)) {
+                return i;
+            }
+        }
+        return null;
+    } 
+
 
 
 }
