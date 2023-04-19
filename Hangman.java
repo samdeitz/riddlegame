@@ -37,13 +37,10 @@ public class Hangman {
      * @param g guesses
      */
     void checkGuessedWord(String a, String[] g) {
-        // make the array of correct guesses a string
         String s = "";
         for(int i = 0; i < g.length; i++) {
             s += g[i];
         }
-
-        // if they are equal --> win
         if(a.equals(s)) guessed = true;
     }
 
@@ -51,49 +48,37 @@ public class Hangman {
         Scanner sc = new Scanner(System.in);
         int lives = 9;
         String answer ="words";
-
-        // create hidden word array
         String[] hiddenWord = new String[answer.length()];
         for(int i = 0 ; i < hiddenWord.length; i++) {
             hiddenWord[i] = "_";
         }
         ArrayList<String> letters = new ArrayList<>();
 
-
         while(!guessed) {
-
             System.out.printf("%nlives: %d%n", lives);
-
-            // if they have 0 lives, break
             if(lives <= 0) {
                 System.out.printf("%nYOU LOSE!%n");
                 break;
             }
             checkGuessedWord(answer, hiddenWord);
+            
+            
             showWord(hiddenWord);
             showGuessedLetters(letters);
-
-            // take guess
             System.out.print("\nWhat is your guess? ");
-
-            String guess = sc.next();
-
-
-            // if they guess with one letter 
-            if(guess.matches("[A-Za-z]{1}")) continue;
-
-            // if they guessed before
+            String guess;
+            
+            guess = sc.next();
+            if(guess.length() > 1) continue;
             if(letters.contains(guess)) {
                 System.out.println("You already guessed this.");
                 continue;
             }
             letters.add(guess);
             
-            // if the guess is in the answer, find index of the letter
+
             if(answer.contains(guess)) {
                 for(int i = 0; i < answer.length(); i++) {
-
-                    // if index of letter, put in array at that index
                     if(String.valueOf(answer.charAt(i)).equals(guess)) {
                         hiddenWord[i] = guess.toLowerCase();
                     }
@@ -102,11 +87,10 @@ public class Hangman {
             else lives--;
             
         }
-
-        if(guessed) {
+        if(lives > 0) {
             System.out.println("YOU WIN!");
             
         }
-        sc.close();
+        
     }
 }

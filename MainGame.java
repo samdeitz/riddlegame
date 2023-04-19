@@ -225,6 +225,7 @@ public class MainGame {
         
         //change room
         currentRoom = newRoom;
+        rooms.get(currentRoom).setVisited();
         System.out.printf("%s%n%n", rooms.get(currentRoom).d);
     }
 
