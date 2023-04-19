@@ -4,31 +4,31 @@ import java.util.ArrayList;
 public class Hangman {
     static boolean guessed = false;
     
-
     /**
      * show what the person has guessed
      * @param arr the array containing the hidden word
      */
     void showWord(String[] arr) {
         System.out.println();
-
         // print the array of guessed
         for(String s : arr) {
             System.out.print(s + " ");
         }
     }
+
+
     /**
      * show all letters that have been guessed
      * @param arr the array of guessed letters
      */
     void showGuessedLetters(ArrayList<String> arr) {
         System.out.println();
-
         // print each letter
         for(String l : arr) {
             System.out.print(l + " ");
         }
     }
+
 
     /**
      * check if they guessed the word
@@ -41,7 +41,6 @@ public class Hangman {
         for(int i = 0; i < g.length; i++) {
             s += g[i];
         }
-
         // if they are equal --> win
         if(a.equals(s)) guessed = true;
     }
