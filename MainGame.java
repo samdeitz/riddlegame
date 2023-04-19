@@ -80,7 +80,8 @@ public class MainGame {
                         }
                         break;
 
-                   
+                    // case default:
+                    //     System.out.println("I dont understand");
                     
                     case "use":
                         String word2 = sen.split(" ")[1];
@@ -107,11 +108,6 @@ public class MainGame {
                             System.out.println("You use the lever and bring the mechanism to life, revealing to you the gameshow like surroundings.");
                             playTrivia();
                         }
-                        break;
-
-
-                    default:
-                        System.out.println("I dont understand");
 
                     
                 }
