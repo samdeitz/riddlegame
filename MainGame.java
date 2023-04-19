@@ -13,20 +13,22 @@ public class MainGame {
     public static void main(String[] args) {
             setup();
             System.out.print("What is your name? ");
-            p.name = sc.nextLine();
+            p.name = sc.nextLine().trim();
             System.out.printf("Welcome %s.%nIf you type 'commands' you are given a list of commands.", p.name);
             System.out.printf("%s%n%n", makeItalic(rooms.get(currentRoom).d));
 
             while(!gameOver) {
+                
                 Room r = rooms.get(currentRoom);
                 System.out.print("What will you do? ");
                 String sen = sc.nextLine();
                 sen = translateSen(sen);
                 String word1 = sen.split(" ")[0];
-                p.inventory.add(rooms.get("keyroom2").getItem("blackkey"));
-                p.inventory.add(rooms.get("puzzle").getItem("marker"));
-
-                
+                if(p.lives <= 0) {
+                    System.out.println("YOU LOSE!!! LLLLLL");
+                    gameOver = true;
+                }
+                               
                 switch(word1.toLowerCase()) {
                     case "n": case "s": case "w": case "e": case "u": case "d":
                     case "north": case "south": case "west": case "east": case "up": case "down":
@@ -54,11 +56,10 @@ public class MainGame {
                                 if(i.n.equals("torch")) {
                                     hasTorch = true;
                                     currentRoom = "hall2";
-                                    System.out.println(rooms.get(currentRoom).d);
+                                    System.out.println("You are sent back to the hallway");
                                 }
                                 if(i.n.equals("lever")) hasLever = true;
                                 if(i.n.equals("marker")) hasMarker = true;
-                                
                                 if(i.n.equals("mat")) hasMat = true;
                                 break;
                             }
@@ -69,12 +70,11 @@ public class MainGame {
                     case "read":
 
                         // if readable item is in room
-                        for(Item i : r.items) {
-                            if(i.n.equals(sen.split(" ")[1])) {
-                                System.out.println(i.d);
-                                break;
-                            }
-                            else System.out.println("I don't understand");
+                        if(r.n.equals("puzzle")) {
+                            System.out.println(rooms.get("puzzle").getItem("engraving").d);
+                        }
+                        if(r.n.equals("entrance")) {
+                            System.out.println(rooms.get("entrance").getItem("plaque").d);
                         }
                         break;
 
@@ -94,24 +94,23 @@ public class MainGame {
                     
                     case "use":
                         String word2 = sen.split(" ")[1];
-                        Room reqRoom = rooms.get(currentRoom);
 
                         // if they try to use keys on doors --> unlock if in right room
-                        if(word2.equals("redkey") && reqRoom.n.equals("hall2") && rooms.get("redroom").locked) {
+                        if(word2.equals("redkey") && r.n.equals("hall2") && rooms.get("redroom").locked) {
                             rooms.get("redroom").locked = false;
                             System.out.println(makeItalic("You open the locked room."));
                             System.out.println(makeItalic("You are back in the hallway."));
 
                         }
 
-                        else if(word2.equals("greenkey") && reqRoom.n.equals("hall2") && rooms.get("greenroom").locked) {
+                        else if(word2.equals("greenkey") && r.n.equals("hall2") && rooms.get("greenroom").locked) {
                             rooms.get("greenroom").locked = false;
                             System.out.println(makeItalic("You open the green room, you see nothing but darkness inside."));
                             System.out.println(makeItalic("You are back in the hallway."));
 
                         }
 
-                        else if(word2.equals("blackkey") && reqRoom.n.equals("entrance") && rooms.get("blackroom").locked) {
+                        else if(word2.equals("blackkey") && r.n.equals("entrance") && rooms.get("blackroom").locked) {
                             rooms.get("blackroom").locked = false;
                             System.out.println(makeItalic("You open the black room."));
                             System.out.println(makeItalic("You are back at the entrance."));
@@ -119,8 +118,9 @@ public class MainGame {
                         }
 
                         // if they try to use lever to play last game
-                        else if(word2.equals("lever") && reqRoom.n.equals("greenroom") && hasLever) {
+                        else if(word2.equals("lever") && r.n.equals("greenroom") && hasLever) {
                             System.out.println(makeItalic("You use the lever and bring the mechanism to life, revealing to you the gameshow like surroundings."));
+                            System.out.printf("%s%n%n", makeItalic(rooms.get(currentRoom).d));
                             hasLever = false;
                             Item l = p.getItem("lever");
                             rooms.get("greenroom").items.add(l);
@@ -182,7 +182,7 @@ public class MainGame {
         if(newRoom.equals("redroom")){
             // if locked(dont have key1) print message and return
             if (rooms.get("redroom").locked) {
-                System.out.println("This exit is locked. You need the red key to enter.\n");
+                System.out.println("This exit is locked. Use the red key to enter.\n");
                 return;
             }
         }
@@ -192,7 +192,7 @@ public class MainGame {
 
             //check locked
             if(rooms.get("blackroom").locked) {
-                System.out.println("This exit is locked. You need the black key to enter.\n");
+                System.out.println("This exit is locked. Use the black key to enter.\n");
                 return;
             }
         }
@@ -202,13 +202,13 @@ public class MainGame {
 
             // check locked
             if (rooms.get("greenroom").locked) {
-                System.out.println("This exit is locked. You need the green key to enter.\n");
+                System.out.println("This exit is locked. Use the green key to enter.\n");
                 return;
             }
 
             //if the room is lit up
             if(hasTorch){
-                System.out.println(makeItalic("You use the torch to light up the room. There is a broken mechanism on the wall. Maybe you can find an item to fix it."));
+                System.out.println(makeItalic("The torch lights up the room. There is a broken mechanism on the wall. Maybe you can find an item to fix it."));
             }
             else {
                 System.out.println(makeItalic("You are in a dark room, perhpas you could find something to light it up."));
@@ -221,6 +221,7 @@ public class MainGame {
         if(newRoom.equals("wrong1") || newRoom.equals("wrong2") || newRoom.equals("wrong3")){
             System.out.println(rooms.get(newRoom).d);
             p.removeLife();
+            System.out.println("You are at the beginning of the loop again. ");
             newRoom = "twoDoorsRoom"; 
         }
 
@@ -239,7 +240,7 @@ public class MainGame {
             }
             else {
                 System.out.printf("CONGRADULATIONS YOU WON THE GAME!!! %nYou ended with %d lives. %nYou ended %s the mat.", p.lives, hasMat ? "with" : "without");
-                System.exit(0);
+                gameOver = true;
             }
         }
 
@@ -253,7 +254,7 @@ public class MainGame {
         
         //change room
         currentRoom = newRoom;
-        System.out.printf("%s%n%n", makeItalic(rooms.get(currentRoom).d));
+        if(!currentRoom.equals("greenroom")) System.out.printf("%s%n%n", makeItalic(rooms.get(currentRoom).d));
     }
 
 
@@ -309,6 +310,7 @@ public class MainGame {
                 else System.out.println("Wrong!");
             }
         }
+        rooms.get(currentRoom).locked = true;
     }
 
     /**
@@ -361,18 +363,20 @@ public class MainGame {
             // set has marker, go back to hall1
             hasMarker = true;
             
-            //TODO i luv him more(she doesnt)(she very much does not!!!!!!!! <3)(I VEEEERRRRYYYYY MUCCCHHHH DDDDDDDDDDOOOOOOOOO.)(NOEP)
         }
 
         // if they enter the hangman room play hangman
         else if(currentRoom.equals("blackroom")) {
+            
+            if(Hangman.guessed) {
+                System.out.println("You already won this game.");
+                return;
+            }
             if(hasMarker) {
                 playHangman();
             }
 
-            else {
-                System.out.println("Perhaps you could use a marker to draw on it.");
-            }
+            else System.out.println("Perhaps you could use a marker to draw on it.");
         }
 
 
@@ -401,7 +405,10 @@ public class MainGame {
     static void showInventory() {
         // print thier inventory
         for(Item i : p.inventory) {
-            System.out.printf("%s: %s  ", i.n, i.d);
+            System.out.printf("%s: %s %n", i.n, i.d);
+        }
+        if(p.inventory.size() == 0){
+            System.out.println("Inventory Empty");
         }
     }
 

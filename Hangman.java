@@ -47,7 +47,7 @@ public class Hangman {
 
     Hangman() {
         Scanner sc = new Scanner(System.in);
-        int lives = 9;
+        int guesses = 12;
         String answer ="words";
 
         // create hidden word array
@@ -60,12 +60,12 @@ public class Hangman {
 
         while(!guessed) {
 
-            System.out.printf("%nlives: %d%n", lives);
+            System.out.printf("%nGuesses: %d%n", guesses);
             showWord(hiddenWord);
             showGuessedLetters(letters);
 
             // if they have 0 lives, break
-            if(lives <= 0) {
+            if(guesses <= 0) {
                 System.out.printf("%nYOU LOSE!%n");
                 break;
             }
@@ -97,8 +97,7 @@ public class Hangman {
                     }
                 }
             }
-            else lives--;
-            
+            guesses--;  
             checkGuessedWord(answer, hiddenWord);
         }
         showWord(hiddenWord);
