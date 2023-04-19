@@ -44,7 +44,6 @@ public class Hangman {
         for(int i = 0; i < g.length; i++) {
             s += g[i];
         }
-<<<<<<< HEAD
         // if they are equal --> win
         if(a.equals(s)) guessed = true;
     }
@@ -92,61 +91,10 @@ public class Hangman {
                             hiddenWord[i] = guess.toLowerCase();
                         }
                         else lives--;
-=======
-        if(a.equals(s)) guessed = true;
-    }
-
-    Hangman() {
-        Scanner sc = new Scanner(System.in);
-        int lives = 9;
-        String answer ="words";
-        String[] hiddenWord = new String[answer.length()];
-        for(int i = 0 ; i < hiddenWord.length; i++) {
-            hiddenWord[i] = "_";
-        }
-        ArrayList<String> letters = new ArrayList<>();
-
-        while(!guessed) {
-            System.out.printf("%nlives: %d%n", lives);
-            if(lives <= 0) {
-                System.out.printf("%nYOU LOSE!%n");
-                break;
-            }
-            checkGuessedWord(answer, hiddenWord);
-            
-            
-            showWord(hiddenWord);
-            showGuessedLetters(letters);
-            System.out.print("\nWhat is your guess? ");
-            String guess;
-            
-            guess = sc.next();
-            if(guess.length() > 1) continue;
-            if(letters.contains(guess)) {
-                System.out.println("You already guessed this.");
-                continue;
-            }
-            letters.add(guess);
-            
-
-            if(answer.contains(guess)) {
-                for(int i = 0; i < answer.length(); i++) {
-                    if(String.valueOf(answer.charAt(i)).equals(guess)) {
-                        hiddenWord[i] = guess.toLowerCase();
->>>>>>> parent of 4c36cb8 (Co-authored-by: solarrrrrrrrr <solarrrrrrrrr@users.noreply.github.com>)
                     }
                 }
             }
             if(guessed) System.out.println("YOU WIN!");
         }
-<<<<<<< HEAD
+
     }
-=======
-        if(lives > 0) {
-            System.out.println("YOU WIN!");
-            
-        }
-        
-    }
-}
->>>>>>> parent of 4c36cb8 (Co-authored-by: solarrrrrrrrr <solarrrrrrrrr@users.noreply.github.com>)
