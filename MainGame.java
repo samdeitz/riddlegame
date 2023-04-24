@@ -4,7 +4,6 @@ import java.util.Scanner;
 public class MainGame {
     static String currentRoom;
     static HashMap<String, Room> rooms = new HashMap<>();
-    static boolean gameOver = false;
     static Player p = new Player("");
     static boolean hasTorch = false, hasLever = false, hasMarker = false, hasMat = false;
     static final Scanner sc = new Scanner(System.in);
@@ -17,17 +16,13 @@ public class MainGame {
             System.out.printf("Welcome %s.%nIf you type 'commands' you are given a list of commands.", p.name);
             System.out.printf("%s%n%n", makeItalic(rooms.get(currentRoom).d));
 
-            while(!gameOver) {
-                
+            while(!checkEnd()) {
                 Room r = rooms.get(currentRoom);
                 System.out.print("What will you do? ");
                 String sen = sc.nextLine();
                 sen = translateSen(sen);
                 String word1 = sen.split(" ")[0];
-                if(p.lives <= 0) {
-                    System.out.println("YOU LOSE!!! LLLLLL");
-                    gameOver = true;
-                }
+                
                                
                 switch(word1.toLowerCase()) {
                     case "n": case "s": case "w": case "e": case "u": case "d":
@@ -43,6 +38,8 @@ public class MainGame {
                         break;
                     
                     case "pickup":
+                        if(!(sen.split(" ").length > 1)) break;
+
                         for(Item i : r.items) {
                             
                             // if item is what they input
@@ -93,6 +90,7 @@ public class MainGame {
                     //     System.out.println("I dont understand");
                     
                     case "use":
+                        if(!(sen.split(" ").length > 1)) break;
                         String word2 = sen.split(" ")[1];
 
                         // if they try to use keys on doors --> unlock if in right room
@@ -121,11 +119,10 @@ public class MainGame {
                         else if(word2.equals("lever") && r.n.equals("greenroom") && hasLever) {
                             System.out.println(makeItalic("You use the lever and bring the mechanism to life, revealing to you the gameshow like surroundings."));
                             System.out.printf("%s%n%n", makeItalic(rooms.get(currentRoom).d));
-                            hasLever = false;
                             Item l = p.getItem("lever");
                             rooms.get("greenroom").items.add(l);
                             p.inventory.remove(l);
-                            playTrivia();
+                            
                         }
                         else System.out.println("You cannot use that here.");
                         break;
@@ -238,10 +235,6 @@ public class MainGame {
                 System.out.println("You must get all 4 keys to exit this room.");
                 return;
             }
-            else {
-                System.out.printf("CONGRADULATIONS YOU WON THE GAME!!! %nYou ended with %d lives. %nYou ended %s the mat.", p.lives, hasMat ? "with" : "without");
-                gameOver = true;
-            }
         }
 
 
@@ -306,11 +299,15 @@ public class MainGame {
             // add to wrong --> every multiple 3 wrong they lose a life
             else {
                 wrong++;
-                if(wrong %3 == 0 && wrong != 0) System.out.printf("WRONG! You now have %d lives.%n", p.lives);
+                if(wrong %3 == 0 && wrong != 0) {
+                    p.removeLife();
+                    System.out.printf("WRONG! You now have %d lives.%n", p.lives);
+                }
                 else System.out.println("Wrong!");
             }
         }
         rooms.get(currentRoom).locked = true;
+
     }
 
     /**
@@ -348,6 +345,9 @@ public class MainGame {
      * check if game needs to be played based on room.
      */
     static void checkGame() {
+        // PUT KEYS IN KEY ARRAY
+        //if theyre in room and used lever 
+        //if(currentRoom.equals("greenroom") && rooms.get("greenroom").)
 
         // if they play a the riddles
         if(currentRoom.equals("puzzle")) {
@@ -359,6 +359,9 @@ public class MainGame {
             // give reward marker - remove from room
             p.addItem(rooms.get(currentRoom).getItem("marker"));
             rooms.get(currentRoom).removeItem("marker");
+
+            currentRoom = "hall1";
+            System.out.println("You are back in the hallway.");
             
             // set has marker, go back to hall1
             hasMarker = true;
@@ -433,5 +436,19 @@ public class MainGame {
     static void showCommands() {
         System.out.print("\nUSE itemName - uses item\nPICKUP itemName - pickup an item\nREAD itemName - reads info/instruction on an item"
                         +"\nSEARCH - searches a room for hidden items\nINVENTORY - prints your inventory contents\nN/E/S/W - direction commands\nPLAY - starts game\n");
+    }
+
+    static boolean checkEnd() {
+        boolean b = false;
+        if(p.lives <= 0) {
+            System.out.println("YOU ARE OUT OF LIVES!");
+            b =true;
+        }
+
+        if(rooms.get(currentRoom).n.equals("exit")) {
+            System.out.printf("CONGRADULATIONS YOU WON THE GAME!!! %nYou ended with %d lives. %nYou ended %s the mat.", p.lives, hasMat ? "with" : "without");
+            b = true;
+        }
+        return b;
     }
 }
