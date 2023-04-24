@@ -1,11 +1,10 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 class Room {
     String n,d;
     boolean locked;
     private String N,E,S,W;
-    ArrayList<Item> items = new ArrayList<>();
+    HashMap<String, Item> items = new HashMap<>();
 
 
     /**
@@ -56,35 +55,26 @@ class Room {
      * @param name name of item
      * @return returns wanted item
      */
-
     Item getItem(String name) {
-        for(Item i : items) {
-            if(i.n.equals(name)) {
-                return i;
+        for(String s : items.keySet()) {
+            if(s.equals(name)) {
+                return items.get(s);
             }
         }
         return null;
     }
 
+    /**
+     * removes item from room
+     * @param name name of item to ber
+     */
     void removeItem(String name) {
-        for(Item i : items) {
-            if(i.n.equals(name)){
-                items.remove(i);
+        for(String s : items.keySet()) {
+            if(s.equals(name)){
+                items.remove(s);
                 break;
             }
         }
-    }
-
-    static Room getRoom(String name, HashMap<String, Room> rooms) {
-
-        Room room = null;
-        for(Room r : rooms.values()) {
-            if(r.n.equals(name)) {
-                room = r;
-            }
-        }
-
-        return room;
     }
 
 
@@ -100,8 +90,10 @@ class Room {
                                                 + "\nYou see the door has 4 keyholes and a plaque with writing beside it.", false);
         rooms.put(entrance.n, entrance);
         entrance.setExits("hall2", "blackroom","exit","hall1");
-        Item plaque = new Item("plaque", "Welcome, ", false);
-        entrance.items.add(plaque);
+        Item plaque = new Item("plaque", "Welcome, you have been locked in our game, and must find four keys to use the door to exit.\n"
+                                        + "You must complete our series of minigames to get the needed keys to escape.\n"
+                                        + "You must get each key in sequential order, and have 10 lives to do so, good luck!", false);
+        entrance.items.put(plaque.n, plaque);
 
 
 
@@ -121,11 +113,11 @@ class Room {
                                             + "\nYou find yourself in a room, with a number on the wall, and an engraving you cant quite see.", false);
         rooms.put(riddleroom.n, riddleroom);
         Item engraving = new Item("engraving", "Welcome, to open the door you must answer three riddles, but careful! Three wrong answers and you lose a life.", false);
-        riddleroom.items.add(engraving);
+        riddleroom.items.put(engraving.n, engraving);
         riddleroom.setExits("hall1", "", "", "");
 
         Item marker = new Item("marker", "A whiteboard marker, coloured black", false);
-        riddleroom.items.add(marker);
+        riddleroom.items.put(marker.n, marker);
 
 
 
@@ -138,15 +130,15 @@ class Room {
         keyroom1.setExits("", "hall1", "", "");
         Item mat = new Item("mat", "plain red shag carpet.", false);
         Item key1 = new Item("redkey", "Shiny red key, perhaps useful for opening doors.", true);
-        keyroom1.items.add(mat);
-        keyroom1.items.add(key1);
+        keyroom1.items.put(mat.n, mat);
+        keyroom1.items.put(key1.n, key1);
 
 
         Room keyroom2 = new Room("keyroom2", "\nWelcome to the black key room. Play along with my questions to get your reward.\n", false);
         rooms.put(keyroom2.n, keyroom2);
         keyroom2.setExits("redroom","","","");
         Item key2 = new Item("blackkey", "A mat black key", false);
-        keyroom2.items.add(key2);
+        keyroom2.items.put(key2.n, key2);
 
 
         Room keyroom3 = new Room("blackroom", "\nYou enter a room, you see a whiteboard with a game of hangman setup"
@@ -154,14 +146,14 @@ class Room {
         rooms.put(keyroom3.n, keyroom3);
         keyroom3.setExits("", "", "", "entrance");
         Item key3 = new Item("greenkey", "A shiny green key.", false);
-        keyroom3.items.add(key3);
+        keyroom3.items.put(key3.n, key3);
 
         Room keyroom4 = new Room("greenroom","\nYou see the lighted podiums, the big projector booting up with the words 'trivia thingy' on the screen."
                                             + "\nPerhaps this gameshow you find yourself in could aid you in finding your last key.\n", true);
         rooms.put(keyroom4.n, keyroom4);
         keyroom4.setExits("","","hall2","");
         Item key4 = new Item("bluekey", "A blue key", false);
-        keyroom4.items.add(key4);
+        keyroom4.items.put(key4.n, key4);
 
         Room exit = new Room("exit", "\nCongrats you won the game!", true);
         rooms.put(exit.n, exit);
@@ -178,13 +170,13 @@ class Room {
         rooms.put(leverRoom.n, leverRoom);
         leverRoom.setExits("","","","redroom");
         Item lever = new Item("lever", "cool lever", true);
-        leverRoom.items.add(lever);
+        leverRoom.items.put(lever.n, lever);
 
         Room torchRoom = new Room("torchRoom", "\nFinally, a different room. There is a torch on the wall, maybe it will be useful.\n", false);
         rooms.put(torchRoom.n, torchRoom);
         torchRoom.setExits("","","right2","");
         Item torch = new Item("torch", "A lit torch, brightens up the room.", false);
-        torchRoom.items.add(torch);
+        torchRoom.items.put(torch.n, torch);
 
 
 

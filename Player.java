@@ -1,11 +1,10 @@
 
-import java.util.ArrayList;
+import java.util.HashMap;
 public class Player {
-    int lives = 6;
+    int lives = 10;
     int food = 5;
     String name;
-    ArrayList<Item> inventory = new ArrayList<>();
-    ArrayList<Item> keys = new ArrayList<>();
+    HashMap<String, Item> inventory = new HashMap<>();
 
 
     /**
@@ -29,18 +28,36 @@ public class Player {
      * @param i item to be added to inventory
      */
     void addItem(Item i) {
-        inventory.add(i);
+        inventory.put(i.n, i);
         System.out.printf("Added item %s.%n", i.n);
     }
 
+    /**
+     * get an item from player inventory
+     * @param name name of desired item
+     * @return returns desired item
+     */
     Item getItem(String name) {
-        for(Item i : inventory) {
-            if (i.n.equals(name)) {
-                return i;
+        for(String s : inventory.keySet()) {
+            if (s.equals(name)) {
+                return inventory.get(s);
             }
         }
         return null;
     } 
+
+    /**
+     * checks if player is in posession of item
+     * @param s name of desired item
+     * @return true or false indicating if the player has an item
+     */
+    boolean hasItem(String s) {
+        boolean b = false;
+        if(inventory.containsKey(s)) {
+            b = true;
+        }
+        return b;
+    }
 
 
 

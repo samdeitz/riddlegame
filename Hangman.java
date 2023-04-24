@@ -78,6 +78,12 @@ public class Hangman {
 
 
             // if they guess with one letter 
+            if(guess.equals(answer)) {
+                guessed = true;
+                for(int i = 0; i < hiddenWord.length; i++) {
+                    hiddenWord[i] = String.valueOf(guess.charAt(i));
+                }
+            }
             if(!guess.matches("[A-Za-z]{1}")) continue;
 
             // if they guessed before
