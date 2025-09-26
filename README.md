@@ -9,7 +9,7 @@ door!
 ## 🎮 Play the Game
 
 ### Windows Only
-1. Download the latest release: [RiddleGame.zip](https://github.com/samdeitz/rushhour/releases/download/v1.0/RiddleGame.zip)
+1. Download the latest release: [RiddleGame.zip](https://github.com/samdeitz/riddlegame/releases/download/v1.0/RiddleGame.zip)
 2. Extract (unzip) the folder.
 3. Open the folder and double-click **RiddleGame.exe** to start playing.
 
